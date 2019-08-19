@@ -519,30 +519,25 @@ Page({
   },
 
   payMoney: function(){
+    var name = "MohaElder169"
+    var appSecret = "12438e8779c241079b651babc2139760";
+    var price = '0.2';
+    var order_id = "aevavavawvwac";
     wx.navigateToMiniProgram({
-      appId: 'wx6c2423928b92ca14',
+      appId: 'wxd02fe3fa8e320487',
       path: 'pages/index/index',
       extraData: {
-        'aid': '5985',
-        'name': 'paymentTest',
-        'pay_type': 'jsapi',
-        'price': '0.02',
-        'order_id': 'm-5',
-        'notify_url': 'https://abc.com/notify',
-        'sign': md5.md5('XorPay充值' + 'jsapi' + '0.02' + 'm-5' + 'https://abc.com/notify' + '12438e8779c241079b651babc2139760'),
+        
       },
-      //envVersion: 'develop',
       fail(res) {
-        console.log(res);
         wx.showToast({
           title: res.errMsg,
           icon: 'none',
         });
       },
       success(res) {
-        console.log(res);
         wx.showToast({
-          title: 'ok',
+          title: '跳转成功',
           icon: 'none',
         });
       },
