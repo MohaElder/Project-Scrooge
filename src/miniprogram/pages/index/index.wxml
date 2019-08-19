@@ -1,0 +1,244 @@
+<view wx:if='{{isPrisoner == true}}'>
+  <text>Black List</text>
+  <image mode='widthFix' src='https://wx2.sinaimg.cn/mw690/006tozhpgy1g4yb6iuh7uj311u0fr16w.jpg'></image>
+</view>
+<view wx:else>
+  <view class="padding bg-white">
+    <view class="flex animated fadeInDown" >
+      <view class="flex-treble padding-sm margin-xs radius">
+        <text class="text-black text-xxl text " catchtap='roll'>Quality of\n Life Services</text>
+        <view class="text-blue text-sm radius" style='margin-top:10rpx;' catchtap='navigate' data-pagename="article">了解更多 ></view>
+      </view>
+      <view class="flex-sm padding-sm margin-xs radius" bindtap='navigate' data-pagename="self">
+        <view class="cu-avatar round " style="background-image:url({{userInfo.avatarUrl}}); margin-left:10rpx;"></view>
+        <view class="text-xs radius text-black" style="margin-top:15rpx;">个人中心</view>
+      </view>
+    </view>
+    <view class="flex p-xs margin-bottom-sm mb-sm">
+      <view class="flex-sub padding-sm margin-xs radius">
+        <swiper catchtap='navigate' data-pagename="article" class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+          <swiper-item wx:for="{{swiperList}}" wx:key="url">
+            <view class="cu-card case {{isCard?'no-card':''}}">
+              <view class="cu-item shadow">
+                <view class="image">
+                  <image class="radius" src="{{item.url}}" mode="widthFix"></image>
+                </view>
+              </view>
+
+            </view>
+          </swiper-item>
+        </swiper>
+      </view>
+    </view>
+    <!--上半部分-->
+
+    <view class="padding-sm margin-xs radius animated slideInUp">
+      <text class="text-xl text-black text-bold" catchtap = "showSaySomeThing">今日菜谱</text>
+      <view class="cu-card case {{isCard?'no-card':''}}" wx:for="{{orderList}}" wx:key="name">
+        <view class="cu-item shadow">
+          <view class="text" style='margin-top:20rpx; margin-bottom:20rpx;'>
+          </view>
+          <view class="content">
+            <view class="image">
+              <image class="radius" src="{{item.imageURL}}" mode="widthFix" ></image>
+              <view class="cu-tag bg-blue radius" wx:if="{{item.stock > 5}}">库存充足</view>
+              <view class="cu-tag bg-red radius" wx:elif="{{item.stock <= 0}}">库存告罄</view>
+              <view class="cu-tag bg-yellow radius" wx:elif="{{item.stock <= 5}}">库存较少</view>
+            </view>
+            <view class="desc flex" style='margin-top:20rpx;'>
+              <view class="flex-treble text-xl text-bold">{{item.name}}</view>
+              <text class='flex-sub '>{{item.rate}}% 满意</text>
+            </view>
+            <view class='flex align-start' style='margin-top:20rpx;'>
+              <text class="text-price text-xxl flex-sub"> {{item.price}}</text>
+              <button class=" flex-sm cu-btn bg-green" wx:if="{{isAdmin == true}}" bindtap='purchase' data-index="{{index}}" style='margin-bottom:20rpx;'>订购(As Admin)</button>
+              <button class=" flex-sm cu-btn bg-red" wx:elif="{{outOfTime == true}}" style='margin-bottom:20rpx;' disabled>不在时间段</button>
+              <button class="flex-sm cu-btn bg-grey" style="width:50%;" disabled wx:elif="{{item.stock <= 0 }}">卖光了，明天再来吧</button>
+              <button class=" flex-sm cu-btn bg-green" wx:elif="{{isOrdered == false}}" bindtap='purchase' data-index="{{index}}" style='margin-bottom:20rpx;'>订购</button>
+              <button class=" flex-sm cu-btn bg-grey" wx:else disabled>一天只能买一份饭哦</button>
+            </view>
+          </view>
+        </view>
+      </view>
+<view class='flex align-center justify-center padding-sm'>
+      <button class="flex-sub cu-btn bg-green lg" bindtap='navigate' data-pagename="admin" wx:if="{{isAdmin == true}}">管理员</button>
+</view>
+    </view>
+
+    <!--菜单-->
+
+    <canvas style= "width: 300px; height: 100px;" id="index-canvas" canvas-id="index-canvas"></canvas>
+    
+  </view> 
+
+
+  <view class="padding-xs flex align-center bg-white" catchtap='showCreditList'>
+    <view class="flex-sub text-center">
+      <view class="solid-top text-xs padding">
+        <text class="text-gray" >Powered By QioNio - A basic yet complete O2O solution \n \n <text class='text-green text-bold'>感谢名单</text></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="cu-modal {{modalName=='axiomModal'?'show':''}}">
+    <view class="cu-dialog bg-white">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">想说点什么嘛</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="cu-bar bg-white justify-center">
+        <view class="action">
+          <form>
+            <view class="cu-form-group">
+              <view class="title">我想说</view>
+              <input placeholder="在这里输入......" bindinput='getSaying'></input>
+            </view>
+          </form>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <button class='cu-btn bg-green lg' bindgetuserinfo='saySomething' open-type="getUserInfo">说好啦</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+  <view class="cu-modal {{modalName=='registerModal'?'show':''}}">
+    <view class="cu-dialog bg-white">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">注册</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        第一次打开小程序需要注册嗷
+      </view>
+      <view class="cu-bar bg-white justify-center">
+        <view class="action">
+          <form>
+            <view class="cu-form-group">
+              <view class="title">年级</view>
+              <picker bindchange="PickerChange" value="{{gradeIndex}}" range="{{gradePicker}}">
+                <view class="picker">
+                  {{gradePicker[gradeIndex]}}
+                </view>
+              </picker>
+            </view>
+            <view class="cu-form-group">
+              <view class="title">班级</view>
+              <input placeholder="IB的1A和1B都填写1哦" bindinput='getClass' type='number'></input>
+            </view>
+            <view class="cu-form-group">
+              <view class="title">学号</view>
+              <input placeholder="把你的学号也给我交了" bindinput='getCode'></input>
+            </view>
+            <view class="cu-form-group">
+              <view class="title">代码</view>
+              <input placeholder="最后输入你手上的代码" bindinput='getValidation'></input>
+            </view>
+          </form>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <button class='cu-btn bg-green lg' bindgetuserinfo='register' open-type="getUserInfo">注册</button>
+      </view>
+    </view>
+  </view>
+
+
+
+<view class="cu-modal {{modalName=='Modal3'?'show':''}}">
+  <view class="cu-dialog" bindtap="hideModal">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">❤感谢名单</view>
+      <view class="action">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl bg-white">
+      帮助这个小程序走向现实的人👇
+    </view>
+    <view class="cu-bar bg-white justify-center align-center">
+      <view class="padding-xs flex align-center">
+        <view class="padding-sm">
+          谢泽阳 - 测试
+        </view>
+      </view>
+    </view>
+    <view class="cu-bar bg-white justify-center align-center">
+      <view class="padding-xs flex align-center">
+        <view class="padding-sm">
+          俞妮 - 给予UI，用户操作逻辑建议以及测试
+        </view>
+      </view>
+    </view>
+    <view class="cu-bar bg-white justify-center align-center">
+      <view class="padding-xs flex align-center">
+        <view class="padding-sm">
+          何怡乐 - 给予UI建议以及测试
+        </view>
+      </view>
+    </view>
+    <view class="cu-bar bg-white justify-center align-center">
+      <view class="padding-xs flex align-center">
+        <view class="padding-xl text-cyan">
+          滴水之恩，当涌泉相报
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-modal {{modalName=='purchase'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">看清楚了伙计</view>
+      <view class="action">
+        <text class="cuIcon-close text-red" catchtap="hideModal"></text>
+      </view>
+    </view>
+    <view class="padding-xl bg-white">
+      你确定要订购吗？一天只能买一份饭嗷！
+    </view>
+    <view class="cu-bar bg-white justify-center align-center">
+      <view class="padding-xs flex">
+          <button class= "cu-btn bg-red round" style="margin-right:50px;" bindtap="hideModal">那没事了</button>
+          <button class = "cu-btn bg-green round" bindtap="confirmPurchase">买买买</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-modal {{modalName=='purchaseDone'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">买好了嗷！</view>
+      <view class="action">
+        <text class="cuIcon-close text-red" catchtap="hideModal"></text>
+      </view>
+    </view>
+    <view class="padding-xl bg-white">
+      你要去个人中心看看你的订单不？
+    </view>
+    <view class="cu-bar bg-white justify-center align-center">
+      <view class="padding-xs flex">
+          <button class= "cu-btn bg-red round" style="margin-right:50px;" bindtap="hideModal">不了</button>
+          <button class = "cu-btn bg-green round" bindtap="toSelf">好啊</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<form wx:if="{{isSuper == true}}">
+<view class="cu-form-group">
+<view class="title">
+  <text>Eden's Gate</text>
+</view>
+  <input bindinput='superpowerCodeValidation' placeholder='Enter the secret code...'></input>
+</view>
+</form>
+
+<button bindtap = 'payMoney'>Test Payment</button>
