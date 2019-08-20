@@ -9,7 +9,7 @@ var currentFoodIndex = 0; //食物列表位置
 
 //表单参数 Todo：更改为Form形式
 var openid = "";
-var orderList = [];
+var eventList = [];
 var count = 1;
 var gradeChosen = 'Class of 2020';
 var classChosen = 0;
@@ -45,12 +45,12 @@ Page({
     wx.cloud.callFunction({
       name: 'getDB',
       data: {
-        dbName: "order"
+        dbName: "event"
       }
     })
       .then(res => {
-        orderList = res.result.data;
-        app.globalData.orderList = res.result.data;
+        eventList = res.result.data;
+        app.globalData.eventList = res.result.data;
       })
       .catch(console.error);
   },
@@ -62,7 +62,7 @@ Page({
     wx.cloud.callFunction({
       name: 'getDB',
       data: {
-        dbName: "sodexPlaceHolder"
+        dbName: "coverPages"
       }
     })
       .then(res => {
@@ -163,87 +163,24 @@ Page({
     }
   },
 
-  //判断是否在黑名单内=>是否显示黑名单界面
-  isPrisoner: function (user) {
-    var that = this;
-    if (user.isPrisoner == true) {
-      that.setData({
-        isPrisoner: true
-      })
-    }
-  },
-
-  //检查全局推送状态
-  checkEmergency: function (user) {
-    var that = this;
-    console.log(user)
-    wx.hideLoading()
-    if (user.isAlarmed == false) {
-      wx.cloud.callFunction({
-        name: 'getDB',
-        data: {
-          dbName: "emergencyMessages"
-        }
-      })
-        .then(res => {
-          console.log(res.result.data)
-          wx.showModal({
-            title: 'NOTIFICATION',
-            content: res.result.data[res.result.data.length - 1].content,
-          })
-          wx.cloud.callFunction({
-            name: 'updateDB',
-            data: {
-              dbName: "user",
-              id: openid,
-              isAlarmed: true
-            }
-          })
-        })
-    }
-
-  },
-
   //从数据库下载用户信息
   sync: function () {
     var that = this;
     db.collection('user').doc(openid).get({ //建立或者更新数据库信息
       success: function (res) {
         app.globalData.user = res.data;
-        app.globalData.isOrdered = res.data.isOrdered;
-        for (var i = 0; i < orderList.length; i++) {
-          orderList[i].rate = (orderList[i].goodRateNum / orderList[i].rateNum * 100).toFixed(2);
-          if (orderList[i].rate == 100.00) {
-            orderList[i].rate = "100.0";
-          }
-        };
         var now = new Date();
-        if (now.getHours() < 0 || now.getHours() > 100) {
           that.setData({
-            orderList: orderList,
+            eventList: eventList,
             userInfo: res.data.info,
-            isOrdered: res.data.isOrdered,
-            modalName: null,
-            outOfTime: true
-          })
-          wx.showModal({
-            title: '不在服务时间内',
-            content: '服务时间是：早上八点到中午十二点，记住了嗷！'
-          });
-        } else {
-          that.setData({
-            orderList: orderList,
-            userInfo: res.data.info,
-            isOrdered: res.data.isOrdered,
             modalName: null
           });
-        }
         // res.data 包含该记录的数据
         wx.showToast({
           title: '您已登录！',
         });
         that.isAdmin(res.data);
-        that.checkEmergency(res.data);
+        //that.checkEmergency(res.data);
       },
       fail: function () {
         wx.hideLoading();
@@ -271,31 +208,6 @@ Page({
       count = 0;
       this.showAxiom();
     }
-  },
-
-  //获取输入的贴心语句
-  getSaying: function (e) {
-    sayingChosen = e.detail.value;
-  },
-
-  //上传贴心语句
-  saySomething: function () {
-    wx.showLoading({
-      title: '正在记小本本',
-    })
-    db.collection("sayings").add({
-      data: {
-        text: sayingChosen,
-      }
-    })
-    this.setData({
-      modalName: null
-    })
-    wx.hideLoading()
-    wx.showToast({
-      title: '我知道啦！',
-    })
-
   },
 
   //确认触发购买函数
@@ -374,51 +286,6 @@ Page({
     app.globalData.isOrdered = true;
   },
 
-  //检测超管触发
-  triggerSuperPower: function () {
-    if (count == 5) {
-      this.setData({
-        isSuper: true
-      })
-    }
-    if (count == 50) {
-      wx.showModal({
-        title: 'Error!',
-        content: 'FAILED ATEMPT, REJECT',
-      })
-      this.setData({
-        isSuper: false
-      })
-    }
-    count += 1;
-  },
-
-  //检测超管命令
-  superpowerCodeValidation: function (e) {
-    if (e.detail.value == "youyishuoyiba,woaizhongguo") {
-      this.superPower();
-    } else if (e.detail.value == "114514") {
-      const backgroundAudioManager = wx.getBackgroundAudioManager();
-      backgroundAudioManager.title = 'YaLiMaSuNe';
-      backgroundAudioManager.src = 'https://eroducate.oss-cn-beijing.aliyuncs.com/Assets/yarimasune.wav'
-    }
-  },
-
-  //触发超管
-  superPower: function () {
-    wx.showModal({
-      title: 'su-root',
-      content: 'no rm-f here',
-      success: function (res) {
-        if (res.confirm) {
-          wx.navigateTo({
-            url: '../superAdmin/superAdmin',
-          })
-        }
-      }
-    })
-  },
-
   //显示购买弹窗
   purchase: function (options) {
     var that = this;
@@ -440,54 +307,6 @@ Page({
       currentFoodIndex = options.currentTarget.dataset.index;
       this.setData({
         modalName: "purchase"
-      })
-    }
-
-  },
-
-  //显示贴心语句
-  showAxiom: function () {
-    var axiom = [];
-    wx.cloud.callFunction({
-      name: 'getDB',
-      data: {
-        dbName: "axioms"
-      }
-    })
-      .then(res => {
-        axiom = res.result.data;
-        wx.showModal({
-          title: '你居然发现我了诶',
-          content: axiom[Math.floor((Math.random() * axiom.length))].text,
-        })
-      })
-      .catch(console.error);
-
-  },
-
-  //显示感谢名单
-  showCreditList: function () {
-    this.setData({
-      modalName: "Modal3",
-    })
-    count += 1;
-    if (count == 3) {
-      count = 0;
-      this.setData({
-        isSuper: true
-      })
-      this.triggerSuperPower()
-    }
-
-  },
-
-  //显示贴心语句上传弹窗
-  showSaySomeThing: function () {
-    count += 1;
-    if (count == 3) {
-      count = 0;
-      this.setData({
-        modalName: "axiomModal"
       })
     }
 
@@ -518,16 +337,18 @@ Page({
     })
   },
 
-  payMoney: function(){
-    var name = "MohaElder169"
-    var appSecret = "12438e8779c241079b651babc2139760";
-    var price = '0.2';
-    var order_id = "aevavavawvwac";
+  payMoney: function(name,price,order_id){
     wx.navigateToMiniProgram({
       appId: 'wxd02fe3fa8e320487',
       path: 'pages/index/index',
       extraData: {
-        
+        'aid': '5985',
+        'name': name,
+        'pay_type': 'jsapi',
+        'price': price,
+        'order_id': order_id,
+        'notify_url': 'https://abc.com/notify',
+        'sign': md5.md5(name + 'jsapi' + price + order_id + 'https://abc.com/notify' + '12438e8779c241079b651babc2139760'),
       },
       fail(res) {
         wx.showToast({
@@ -542,6 +363,35 @@ Page({
         });
       },
     });
+  },
+  pay2: function(){
+    var name = "MohaElder169"
+    var appSecret = "12438e8779c241079b651babc2139760";
+    var price = '0.2';
+    var order_id = "esesvesvsvwdadwdvevesaevavavawvwac";
+    wx.request({
+      url: 'https://xorpay.com/api/cashier/5985',
+      data:{
+        name:name,
+        pay_type: 'jsapi',
+        price: price,
+        order_id: order_id,
+        notify_url: 'https://abc.com/notify',
+        sign: md5.md5(name + 'jsapi' + price + order_id + 'https://abc.com/notify' + '12438e8779c241079b651babc2139760'),
+      },
+      method:'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },  
+      success(res) {
+        console.log(res)
+      },
+      fail(res){
+        console.log("Failed!")
+        console.log(res)
+      }
+    })
   }
+
 
 });

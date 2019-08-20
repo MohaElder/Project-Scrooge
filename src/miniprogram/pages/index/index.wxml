@@ -6,7 +6,7 @@
   <view class="padding bg-white">
     <view class="flex animated fadeInDown" >
       <view class="flex-treble padding-sm margin-xs radius">
-        <text class="text-black text-xxl text " catchtap='roll'>Quality of\n Life Services</text>
+        <text class="text-black text-xxl text " catchtap='roll'>Event Hosting\n Platform</text>
         <view class="text-blue text-sm radius" style='margin-top:10rpx;' catchtap='navigate' data-pagename="article">了解更多 ></view>
       </view>
       <view class="flex-sm padding-sm margin-xs radius" bindtap='navigate' data-pagename="self">
@@ -33,7 +33,7 @@
     <!--上半部分-->
 
     <view class="padding-sm margin-xs radius animated slideInUp">
-      <text class="text-xl text-black text-bold" catchtap = "showSaySomeThing">今日菜谱</text>
+      <text class="text-xl text-black text-bold" catchtap = "showSaySomeThing">热门活动</text>
       <view class="cu-card case {{isCard?'no-card':''}}" wx:for="{{orderList}}" wx:key="name">
         <view class="cu-item shadow">
           <view class="text" style='margin-top:20rpx; margin-bottom:20rpx;'>
@@ -242,3 +242,5 @@
 </form>
 
 <button bindtap = 'payMoney'>Test Payment</button>
+
+<button bindtap = 'pay2'>Test Payment via Cashier</button>
