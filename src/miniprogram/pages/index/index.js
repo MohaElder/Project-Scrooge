@@ -20,12 +20,13 @@ var validationChosen = '';
 
 Page({
   data: {
+    
     gradeIndex: 0,
     gradePicker: ['Class of 2020', 'Class of 2021', 'Class of 2022', 'Class of 2023', 'Class of 2024'],
     userInfo: {},
     card: false,
     swiperList: [],
-    orderList: [],
+    eventList:[],
     isAdmin: false,
     isPrisoner: false
   },
@@ -35,13 +36,20 @@ Page({
     wx.showLoading({
       title: '调制猪排冰淇淋',
     })
-    //this.getOrderList();
+    this.getOrderList();
     this.onGetOpenid();
     //this.getSwiperPics();
   },
 
+  learnMore: function(options){
+    wx.navigateTo({
+      url: '../eventDetail/eventDetail?id=' + options.currentTarget.dataset.id
+    })
+  },
+
   //获取菜谱
   getOrderList: function () {
+    var that = this;
     wx.cloud.callFunction({
       name: 'getDB',
       data: {
@@ -49,8 +57,13 @@ Page({
       }
     })
       .then(res => {
+        console.log(res)
         eventList = res.result.data;
         app.globalData.eventList = res.result.data;
+        that.setData({
+          eventList:eventList
+        })
+        
       })
       .catch(console.error);
   },

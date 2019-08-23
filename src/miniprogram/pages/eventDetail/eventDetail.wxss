@@ -1,0 +1,24 @@
+/* miniprogram/pages/eventDetail/eventDetail.wxss */
+
+.Section {
+  margin-top: 10px;
+  margin-left: 10px;
+  display: flex;
+}
+
+.Title {
+  font-size: 30px;
+}
+
+.commoditySelector {
+  width: 25%;
+  height: 15%;
+  min-height: 70rpx;
+  min-width: 20rpx;
+  border-radius: 20px;
+  background-color: white;
+  border-color: black;
+  border: 2px solid;
+  text-align: center;
+  font-size: 18px;
+}
