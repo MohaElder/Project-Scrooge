@@ -1,0 +1,12 @@
+/* miniprogram/components/mohaBar/mohaBar.wxss */
+
+.uiTitle{
+  font-size: 18px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: bold;
+}
+
+.uiContainer{
+  margin:10px 0px 5px 10px;
+}

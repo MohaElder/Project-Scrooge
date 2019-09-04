@@ -1,0 +1,11 @@
+/* miniprogram/components/mohaTitle/mohaTitle.wxss */
+.uiTitle{
+  font-size: 30px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: bold;
+}
+
+.uiContainer{
+  margin:0px 0px 10px 10px;
+}

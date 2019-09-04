@@ -20,7 +20,70 @@ var validationChosen = '';
 
 Page({
   data: {
+    dataSet: [
+      {
+        id: '1',
+        content:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+        backgroundColor: '#AF7AC5',
+        time: 1533106010,
+        likedCount: 0,
+        liked: false,
+        user: {
+          avatar: 'user_avatar_url',
+          username: 'Minya Chan',
+          userId: '1'
+        },
+        images: [
+          'pic_url', 'pic_url', 'pic_url'
+        ]
+      },
+      {
+        id: '2',
+        content:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+        backgroundColor: '#AF7AC5',
+        time: 1533106010,
+        likedCount: 0,
+        liked: false,
+        user: {
+          avatar: 'user_avatar_url',
+          username: 'Minya Chan',
+          userId: '1'
+        },
+        images: [
+          'pic_url', 'pic_url'
+        ]
+      }
+    ],
     
+    option: {
+      defaultExpandStatus: false,
+      backgroundColor: '#ababab',
+      forceRepaint: false,
+      columns: 3,
+      imageFillMode: 'widthFix',
+      icon: {
+        fill: 'xxx.com/icon-full.svg',
+        default: 'xxx.com/icon-default.svg'
+      },
+      fontColor: '#000'
+    },
+
+    weekList:[
+      {
+        name: "TitleC",
+        desc: "Jenn",
+        url: "https://wx1.sinaimg.cn/mw690/006tozhpgy1g5zenmgujyj31900u0e87.jpg",
+        id: "AAA",
+      },
+      {
+        name: "TitleD",
+        desc: "Yun",
+        url: "https://wx3.sinaimg.cn/mw690/006tozhpgy1g5zenkcwwzj31900u07wn.jpg",
+        id: "BBB"
+      }
+    ],
     gradeIndex: 0,
     gradePicker: ['Class of 2020', 'Class of 2021', 'Class of 2022', 'Class of 2023', 'Class of 2024'],
     userInfo: {},
@@ -38,7 +101,10 @@ Page({
     })
     this.getOrderList();
     this.onGetOpenid();
-    //this.getSwiperPics();
+  },
+
+  getImageId:function(info){
+    console.log(info.detail);
   },
 
   learnMore: function(options){
@@ -64,25 +130,6 @@ Page({
           eventList:eventList
         })
         
-      })
-      .catch(console.error);
-  },
-
-
-  //获取封面图片
-  getSwiperPics: function () {
-    var that = this;
-    wx.cloud.callFunction({
-      name: 'getDB',
-      data: {
-        dbName: "coverPages"
-      }
-    })
-      .then(res => {
-        that.setData({
-          swiperList: res.result.data,
-        })
-        wx.hideLoading()
       })
       .catch(console.error);
   },
@@ -184,7 +231,7 @@ Page({
         app.globalData.user = res.data;
         var now = new Date();
           that.setData({
-            eventList: eventList,
+            weekList: eventList,
             userInfo: res.data.info,
             modalName: null
           });

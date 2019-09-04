@@ -1,0 +1,67 @@
+/* miniprogram/components/mohaTitle/mohaTitle.wxss */
+
+.uiSwiper {
+  height: 420rpx;
+}
+
+.uiSwiperMini {
+  height: 210rpx;
+}
+
+.uiTitle {
+  font-size: 28px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 300;
+  color: white;
+  bottom: 0;
+}
+
+.uiDesc {
+  font-size: 20px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 200;
+  color: white;
+}
+
+.uiTitleMini {
+  font-size: 19px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 300;
+  color: white;
+  bottom: 0;
+}
+
+.uiDescMini {
+  font-size: 15px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 200;
+  color: white;
+}
+
+.uiContainer {
+  margin: 10px 0px 5px 10px;
+  position: fixed;
+  bottom: 0;
+}
+
+.uiImageItem {
+  background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+  z-index: 5;
+  position: relative;
+  content: "";
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.4);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}

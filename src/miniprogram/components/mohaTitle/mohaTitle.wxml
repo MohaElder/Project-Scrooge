@@ -1,0 +1,7 @@
+<!--miniprogram/components/mohaTitle/mohaTitle.wxml-->
+<view class="uiContainer">
+<view class="uiTitle">
+<slot></slot>
+</view>
+</view>
+

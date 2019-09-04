@@ -1,17 +1,26 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/eventDetail/eventDetail"
+    "pages/eventDetail/eventDetail",
+    "components/mohaTitle/mohaTitle",
+    "components/mohaBar/mohaBar",
+    "components/mohaSwiper/mohaSwiper"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#FFFFFFF",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#FFFFFF",
     "navigationBarTitleText": "Scrooge",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
   "navigateToMiniProgramAppIdList": [
     "wxd02fe3fa8e320487"
-  ]
+  ],
+  "plugins": {
+    "brickLayout": {
+      "version": "0.2.0",
+      "provider": "wx3c042630f3cdc175"
+    }
+  }
 }

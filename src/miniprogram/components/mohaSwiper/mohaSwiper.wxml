@@ -1,0 +1,30 @@
+<!--miniprogram/components/mohaSwiper/mohaSwiper.wxml-->
+<swiper class="uiSwiper" previous-margin="10px" next-margin="45px" duration="450" interval="4500" autoplay="true" wx:if = "{{!isMini}}">
+  <swiper-item wx:for="{{eventList}}">
+    <view class="uiImageItem" style="background-image: url({{item.imageUrl}}); height: 420rpx; width: 635rpx; border-radius: 10px;" data-id = "{{item._id}}" bindtap="navigate">
+      <view class="uiContainer">
+        <view class="uiTitle">
+          {{item.name}}
+        </view>
+        <view class="uiDesc">
+          {{item.provider}}
+        </view>
+      </view>
+    </view>
+  </swiper-item>
+</swiper>
+
+<swiper class="uiSwiperMini" previous-margin="10px" next-margin="220px" duration="450" interval="4500" autoplay="true" wx:else>
+  <swiper-item wx:for="{{eventList}}">
+    <view class="uiImageItem" style="background-image: url({{item.imageUrl}}); height: 210rpx; width: 317.5rpx; border-radius: 10px;" data-id = "{{item._id}}" bindtap="navigate">
+      <view class="uiContainer">
+        <view class="uiTitleMini">
+          {{item.name}}
+        </view>
+        <view class="uiDescMini">
+          {{item.provider}}
+        </view>
+      </view>
+    </view>
+  </swiper-item>
+</swiper>

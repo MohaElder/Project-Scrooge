@@ -1,0 +1,7 @@
+<!--miniprogram/components/mohaBar/mohaBar.wxml-->
+
+<view class="uiContainer"> 
+<view class="uiTitle">
+<slot></slot>
+</view>
+</view>
