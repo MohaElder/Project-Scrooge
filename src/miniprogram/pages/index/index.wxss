@@ -1,0 +1,52 @@
+.cataractContainer {
+  width: 95%;
+  height: 90%;
+  position: relative;
+  margin-left:5px;
+  margin-right:4px;
+}
+
+.uiImageItem {
+  background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+  z-index: 5;
+  position: relative;
+  content: "";
+  border-radius: inherit;
+  width: 95%;
+  height: 90%;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.4);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.uiContainer {
+  margin: 10px 0px 5px 10px;
+  position: fixed;
+  bottom: 0;
+}
+
+.uiTitle {
+  font-size: 28px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 300;
+  color: white;
+  bottom: 0;
+}
+
+.uiDesc {
+  font-size: 20px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 200;
+  color: white;
+}
+
+::-webkit-scrollbar {
+     display: none;
+}

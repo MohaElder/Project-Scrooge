@@ -8,5 +8,5 @@
 }
 
 .uiContainer{
-  margin:10px 0px 5px 10px;
+  margin: 20px 0px 5px 10px;
 }

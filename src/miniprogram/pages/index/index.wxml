@@ -3,20 +3,15 @@
 
 <mohaBar>What's Trending</mohaBar>
 
-<mohaSwiper bindcustomevent="getImageId" eventList = "{{weekList}}" isMini = "{{false}}"></mohaSwiper>
+<mohaSwiper bindcustomevent="getImageIdCustom" eventList = "{{weekList}}" isMini = "{{false}}"></mohaSwiper>
 
 <mohaBar>See All</mohaBar>
 
-<mohaSwiper bindcustomevent="getImageId" eventList = "{{weekList}}" isMini = "{{true}}"></mohaSwiper>
+<!--<mohaSwiper bindcustomevent="getImageId" eventList = "{{weekList}}" isMini = "{{true}}"></mohaSwiper>-->
 
-<!--<brickLayout
-  dataSet="{{dataSet}}"
-  option="{{brick_option}}"
-  bind:tapCard="tapCard"
-  bind:tapLike="tapLike"
-  bind:tapUser="tapUser"
-  bind:onCardExpanded="onCardExpanded"
-/>-->
+<scroll-view class='cataractContainer' scroll-y='true' style="height:{{windowHeight/2}}px">
+ <image class = "uiImageItem" wx:for='{{weekList}}' wx:key='item' src='{{item.imageUrl}}' style='position: absolute; top: {{item.top}}px; left: {{item.left}}px; width: {{imgWidth}}px; height: {{item.height}}px' bindload='loadImage' data-index='{{index}}' data-id = "{{item._id}}" bindtap='getImageId'/>
+</scroll-view>
 
 <button bindtap = 'payMoney'>Test Payment</button>
 

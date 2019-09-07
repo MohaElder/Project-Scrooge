@@ -20,58 +20,7 @@ var validationChosen = '';
 
 Page({
   data: {
-    dataSet: [
-      {
-        id: '1',
-        content:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-        backgroundColor: '#AF7AC5',
-        time: 1533106010,
-        likedCount: 0,
-        liked: false,
-        user: {
-          avatar: 'user_avatar_url',
-          username: 'Minya Chan',
-          userId: '1'
-        },
-        images: [
-          'pic_url', 'pic_url', 'pic_url'
-        ]
-      },
-      {
-        id: '2',
-        content:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-        backgroundColor: '#AF7AC5',
-        time: 1533106010,
-        likedCount: 0,
-        liked: false,
-        user: {
-          avatar: 'user_avatar_url',
-          username: 'Minya Chan',
-          userId: '1'
-        },
-        images: [
-          'pic_url', 'pic_url'
-        ]
-      }
-    ],
-    
-    option: {
-      defaultExpandStatus: false,
-      backgroundColor: '#ababab',
-      forceRepaint: false,
-      columns: 3,
-      imageFillMode: 'widthFix',
-      icon: {
-        fill: 'xxx.com/icon-full.svg',
-        default: 'xxx.com/icon-default.svg'
-      },
-      fontColor: '#000'
-    },
-
-    weekList:[
-      {
+    weekList: [{
         name: "TitleC",
         desc: "Jenn",
         url: "https://wx1.sinaimg.cn/mw690/006tozhpgy1g5zenmgujyj31900u0e87.jpg",
@@ -89,53 +38,119 @@ Page({
     userInfo: {},
     card: false,
     swiperList: [],
-    eventList:[],
+    eventList: [],
     isAdmin: false,
-    isPrisoner: false
+    isPrisoner: false,
+    dataList: [], //数据源
+    windowWidth: 0, //页面视图宽度
+    windowHeight: 0, //视图高度
+    imgMargin: 6, //图片边距: 单位px
+    imgWidth: 0, //图片宽度: 单位px
+    topArr: [0, 0], //存储每列的累积top
   },
 
   //页面每次打开运行
-  onLoad: function () {
+  onLoad: function() {
     wx.showLoading({
       title: '调制猪排冰淇淋',
     })
     this.getOrderList();
     this.onGetOpenid();
+    wx.showLoading({
+      title: '加载中...',
+    })
+    var that = this;
+    //获取页面宽高度
+    wx.getSystemInfo({
+      success: function(res) {
+        console.log(res)
+        var windowWidth = res.windowWidth;
+        var imgMargin = that.data.imgMargin;
+        //两列，每列的图片宽度
+        var imgWidth = (windowWidth - imgMargin * 3) / 2;
+        that.setData({
+          windowWidth: windowWidth,
+          windowHeight: res.windowHeight,
+          imgWidth: imgWidth
+        })
+      }
+    })
   },
 
-  getImageId:function(info){
+  toEventDetail: function(){
+    wx.navigateTo({
+      url: './../eventDetail/eventDetail?',
+    })
+  },
+
+  //加载图片
+  loadImage: function(e) {
+    var index = e.currentTarget.dataset.index; //图片所在索引
+    var imgW = e.detail.width,
+      imgH = e.detail.height; //图片实际宽度和高度
+    var imgWidth = this.data.imgWidth; //图片宽度,计算图片应该显示的高度
+    var imgScaleH = (imgWidth / imgW * imgH);
+    var dataList = this.data.weekList;
+    var margin = this.data.imgMargin; //图片间距
+    //第一列的累积top，和第二列的累积top
+    var firtColH = this.data.topArr[0],
+      secondColH = this.data.topArr[1];
+    var obj = dataList[index];
+    obj.height = imgScaleH;
+    if (firtColH < secondColH) { //表示新图片应该放到第一列
+      obj.left = margin;
+      obj.top = firtColH + margin;
+      firtColH += margin + obj.height;
+    } else { //放到第二列
+      obj.left = margin * 2 + imgWidth;
+      obj.top = secondColH + margin;
+      secondColH += margin + obj.height;
+    }
+    this.setData({
+      weekList: dataList,
+      topArr: [firtColH, secondColH],
+    });
+  },
+
+  getImageId: function(info) {
+    console.log(info.currentTarget.dataset.id);
+    this.toEventDetail();
+  },
+
+  getImageIdCustom: function (info) {
     console.log(info.detail);
+    this.toEventDetail();
   },
 
-  learnMore: function(options){
+  learnMore: function(options) {
     wx.navigateTo({
       url: '../eventDetail/eventDetail?id=' + options.currentTarget.dataset.id
     })
   },
 
   //获取菜谱
-  getOrderList: function () {
+  getOrderList: function() {
     var that = this;
     wx.cloud.callFunction({
-      name: 'getDB',
-      data: {
-        dbName: "event"
-      }
-    })
+        name: 'getDB',
+        data: {
+          dbName: "event"
+        }
+      })
       .then(res => {
         console.log(res)
         eventList = res.result.data;
         app.globalData.eventList = res.result.data;
         that.setData({
-          eventList:eventList
+          eventList: eventList
         })
-        
+
       })
       .catch(console.error);
   },
 
   //获取用户openid
-  onGetOpenid: function () {
+  onGetOpenid: function() {
     wx.cloud.callFunction({
       name: 'login',
       data: {},
@@ -153,7 +168,7 @@ Page({
   },
 
   //用户注册
-  register: function (res) {
+  register: function(res) {
     var secretCode = '11-1=2';
     if (classChosen != '' && codeChosen != '' && validationChosen == secretCode && classChosen > 0 && classChosen < 11 && codeChosen.substr(0, 1) == 'G') {
       var that = this;
@@ -188,17 +203,17 @@ Page({
 
   //以下为表单函数
   //获取班级
-  getClass: function (e) {
+  getClass: function(e) {
     classChosen = e.detail.value;
   },
 
   //获取学号
-  getCode: function (e) {
+  getCode: function(e) {
     codeChosen = e.detail.value;
   },
 
   //获取校验码
-  getValidation: function (e) {
+  getValidation: function(e) {
     validationChosen = e.detail.value;
   },
 
@@ -212,7 +227,7 @@ Page({
   //以上为表单函数
 
   //判断是否是Admin=>是否显示Admin按钮
-  isAdmin: function (user) {
+  isAdmin: function(user) {
     var that = this;
     if (user.isAdmin == true) {
       that.setData({
@@ -224,17 +239,17 @@ Page({
   },
 
   //从数据库下载用户信息
-  sync: function () {
+  sync: function() {
     var that = this;
     db.collection('user').doc(openid).get({ //建立或者更新数据库信息
-      success: function (res) {
+      success: function(res) {
         app.globalData.user = res.data;
         var now = new Date();
-          that.setData({
-            weekList: eventList,
-            userInfo: res.data.info,
-            modalName: null
-          });
+        that.setData({
+          weekList: eventList,
+          userInfo: res.data.info,
+          modalName: null
+        });
         // res.data 包含该记录的数据
         wx.showToast({
           title: '您已登录！',
@@ -242,7 +257,7 @@ Page({
         that.isAdmin(res.data);
         //that.checkEmergency(res.data);
       },
-      fail: function () {
+      fail: function() {
         wx.hideLoading();
         that.setData({
           modalName: "registerModal"
@@ -253,7 +268,7 @@ Page({
   },
 
   //跳转至给定参数界面
-  navigate: function (options) {
+  navigate: function(options) {
     var pageName = options.currentTarget.dataset.pagename
     var link = "../" + pageName + "/" + pageName;
     wx.navigateTo({
@@ -262,7 +277,7 @@ Page({
   },
 
   //随机选择贴心语句
-  roll: function () {
+  roll: function() {
     count += 1;
     if (count == 3) {
       count = 0;
@@ -271,7 +286,7 @@ Page({
   },
 
   //确认触发购买函数
-  confirmPurchase: function () {
+  confirmPurchase: function() {
     this.updateOrder(currentFoodIndex);
     this.setData({
       modalName: null
@@ -279,7 +294,7 @@ Page({
   },
 
   //更新数据库菜谱（仓库）信息
-  updateOrder: function (index) {
+  updateOrder: function(index) {
     var that = this;
     var orderTemp = orderList[index];
 
@@ -302,7 +317,7 @@ Page({
   },
 
   //更新数据库用户信息
-  updateUser: function (order) {
+  updateUser: function(order) {
     var that = this;
     var orderTemp = that.data.order;
 
@@ -316,7 +331,7 @@ Page({
   },
 
   //更新数据库订单信息
-  updateCheck: function (order) {
+  updateCheck: function(order) {
     var that = this;
     var checkID = "moha";
     for (var i = 0; i < 6; i++) {
@@ -337,7 +352,7 @@ Page({
   },
 
   //刷新本地渲染信息
-  updateLocal: function () {
+  updateLocal: function() {
     var that = this;
     that.setData({
       isOrdered: true,
@@ -347,7 +362,7 @@ Page({
   },
 
   //显示购买弹窗
-  purchase: function (options) {
+  purchase: function(options) {
     var that = this;
     var now = new Date();
     if (this.data.isAdmin == true) {
@@ -381,7 +396,7 @@ Page({
   },
 
   //跳转至个人中心
-  toSelf: function () {
+  toSelf: function() {
     this.setData({
       modalName: null
     })
@@ -391,13 +406,13 @@ Page({
   },
 
   //下拉刷新
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     wx.reLaunch({
       url: '../index/index',
     })
   },
 
-  payMoney: function(name,price,order_id){
+  payMoney: function(name, price, order_id) {
     wx.navigateToMiniProgram({
       appId: 'wxd02fe3fa8e320487',
       path: 'pages/index/index',
@@ -424,29 +439,29 @@ Page({
       },
     });
   },
-  pay2: function(){
+  pay2: function() {
     var name = "MohaElder169"
     var appSecret = "12438e8779c241079b651babc2139760";
     var price = '0.2';
     var order_id = "esesvesvsvwdadwdvevesaevavavawvwac";
     wx.request({
       url: 'https://xorpay.com/api/cashier/5985',
-      data:{
-        name:name,
+      data: {
+        name: name,
         pay_type: 'jsapi',
         price: price,
         order_id: order_id,
         notify_url: 'https://abc.com/notify',
         sign: md5.md5(name + 'jsapi' + price + order_id + 'https://abc.com/notify' + '12438e8779c241079b651babc2139760'),
       },
-      method:'POST',
+      method: 'POST',
       header: {
         'content-type': 'application/x-www-form-urlencoded' // 默认值
-      },  
+      },
       success(res) {
         console.log(res)
       },
-      fail(res){
+      fail(res) {
         console.log("Failed!")
         console.log(res)
       }

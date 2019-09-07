@@ -1,21 +1,10 @@
-<view class="text-sl">Title</view>
+<view class="bg-image" style="background-image: url('https://wx3.sinaimg.cn/mw690/006tozhpgy1g5zenl22ehj31hc0u01l2.jpg);">
+    <view class="uiTitle">Event Title</view>
+    <view class="uiLabel">From More Club</view>
+    <view class="uiLabel">2019/9/27</view>
+    <view class="uiLabel">Luo Xiu Rd.</view>
+    <view class="uiDesc">Lorem Ipsum, this is the event's description</view>
 
-<swiper class="card-swiper" indicator-dots="false" circular="false" autoplay="true" interval="5000" duration="500" indicator-color="#8799a3" indicator-active-color="#0081ff">
-  <swiper-item wx:for="{{swiperList}}" wx:key class="{{cardCur==index?'cur':''}}">
-    <view class="swiper-item">
-      <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
-      <!--      <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>
--->
-    </view>
-  </swiper-item>
-</swiper>
-
-<view class="flex">
-  <view class="flex-sub commoditySelector" style="margin-right:20px;">
-    <picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
-      {{picker[index]}}
-    </picker>
-  </view>
-
+    <button class="uiButton">Count Me In</button>
 
 </view>

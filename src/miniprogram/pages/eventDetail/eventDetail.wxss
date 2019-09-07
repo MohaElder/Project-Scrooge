@@ -1,24 +1,58 @@
-/* miniprogram/pages/eventDetail/eventDetail.wxss */
+page {
+  width: 100%;
+  height: 100%;
+}
 
-.Section {
-  margin-top: 10px;
-  margin-left: 10px;
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
-.Title {
-  font-size: 30px;
+.uiTitle {
+  font-size: 33px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 300;
+  color: white;
+  min-height: 15px;
+  margin-left: 15px;
+  margin-bottom: 5px;
 }
 
-.commoditySelector {
-  width: 25%;
-  height: 15%;
-  min-height: 70rpx;
-  min-width: 20rpx;
-  border-radius: 20px;
-  background-color: white;
-  border-color: black;
-  border: 2px solid;
-  text-align: center;
+.uiDesc {
+  font-size: 15px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 500;
+  color: white;
+  margin-left: 15px;
+}
+
+.uiLabel {
+  font-size: 13.5px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 500;
+  color: #a3a3a1;
+  margin-left: 15px;
+  width: 100%;
+}
+
+.uiButton{
+  position: fixed;
+  color: white;
   font-size: 18px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 500;
+  background-color: #ff2d56;
+  border-radius: 10px;
+  width: 85%;
+  bottom: 2%;
+  left: 8%;
 }
