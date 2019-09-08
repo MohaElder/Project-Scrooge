@@ -17,13 +17,13 @@ Component({
         {
           name:"TitleA",
           provider:"Jenn",
-          imageUrl:"https://wx1.sinaimg.cn/mw690/006tozhpgy1g5zenmgujyj31900u0e87.jpg",
+          coverPic:"https://wx1.sinaimg.cn/mw690/006tozhpgy1g5zenmgujyj31900u0e87.jpg",
           _id:"AAA",
           },
           {
             name:"TitleB",
             provider:"Yun",
-            imageUrl: "https://wx3.sinaimg.cn/mw690/006tozhpgy1g5zenkcwwzj31900u07wn.jpg",
+            coverPic: "https://wx3.sinaimg.cn/mw690/006tozhpgy1g5zenkcwwzj31900u07wn.jpg",
             _id:"BBB"
           }
           ]

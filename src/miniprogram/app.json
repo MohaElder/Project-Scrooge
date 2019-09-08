@@ -4,7 +4,9 @@
     "pages/eventDetail/eventDetail",
     "components/mohaTitle/mohaTitle",
     "components/mohaBar/mohaBar",
-    "components/mohaSwiper/mohaSwiper"
+    "components/mohaSwiper/mohaSwiper",
+    "pages/profile/profile",
+    "components/mohaCard/mohaCard"
   ],
   "window": {
     "backgroundColor": "#FFFFFFF",
@@ -17,10 +19,20 @@
   "navigateToMiniProgramAppIdList": [
     "wxd02fe3fa8e320487"
   ],
-  "plugins": {
-    "brickLayout": {
-      "version": "0.2.0",
-      "provider": "wx3c042630f3cdc175"
-    }
+  "tabBar": {
+    "backgroundColor": "#ffffff",
+    "selectedColor": "#2c2c2c",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "/assets/home.png",
+        "selectedIconPath": "/assets/homeSelected.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "iconPath": "/assets/user.png",
+        "selectedIconPath": "/assets/userSelected.png"
+      }
+    ]
   }
 }

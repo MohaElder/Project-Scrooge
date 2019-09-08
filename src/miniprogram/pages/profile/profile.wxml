@@ -1,0 +1,5 @@
+<mohaTitle>My Events</mohaTitle>
+
+<block wx:for = "{{weekList}}">
+<mohaCard bindcustomevent="getImageIdCustom" event = "{{item}}"></mohaCard>
+</block>

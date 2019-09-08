@@ -1,10 +1,16 @@
-<view class="bg-image" style="background-image: url('https://wx3.sinaimg.cn/mw690/006tozhpgy1g5zenl22ehj31hc0u01l2.jpg);">
-    <view class="uiTitle">Event Title</view>
-    <view class="uiLabel">From More Club</view>
-    <view class="uiLabel">2019/9/27</view>
-    <view class="uiLabel">Luo Xiu Rd.</view>
-    <view class="uiDesc">Lorem Ipsum, this is the event's description</view>
+<view class="container">
+  <image class="bg-image" src="{{event.bigPic}}" mode="scaleToFit">
+    <view class="hoverTexts">
+      <view class="uiTitle">{{event.name}}</view>
+      <view class="uiLabel">From {{event.provider}}</view>
+      <view class="uiLabel">{{event.date}}</view>
+      <view class="uiLabel">At {{event.location}}</view>
+      <view class="uiLabel" style="color:white;">¥ {{event.minimumPrice}} +</view>
+      <view class="uiDesc">{{event.desc}}</view>
+    </view>
 
-    <button class="uiButton">Count Me In</button>
+  </image>
 
+
+  <button class="uiButton">Count Me In</button>
 </view>

@@ -77,9 +77,9 @@ Page({
     })
   },
 
-  toEventDetail: function(){
+  toEventDetail: function(id){
     wx.navigateTo({
-      url: './../eventDetail/eventDetail?',
+      url: './../eventDetail/eventDetail?id=' + id,
     })
   },
 
@@ -90,7 +90,7 @@ Page({
       imgH = e.detail.height; //图片实际宽度和高度
     var imgWidth = this.data.imgWidth; //图片宽度,计算图片应该显示的高度
     var imgScaleH = (imgWidth / imgW * imgH);
-    var dataList = this.data.weekList;
+    var dataList = this.data.eventList;
     var margin = this.data.imgMargin; //图片间距
     //第一列的累积top，和第二列的累积top
     var firtColH = this.data.topArr[0],
@@ -107,25 +107,17 @@ Page({
       secondColH += margin + obj.height;
     }
     this.setData({
-      weekList: dataList,
+      eventList: dataList,
       topArr: [firtColH, secondColH],
     });
   },
 
   getImageId: function(info) {
-    console.log(info.currentTarget.dataset.id);
-    this.toEventDetail();
+    this.toEventDetail(info.currentTarget.dataset.id);
   },
 
   getImageIdCustom: function (info) {
-    console.log(info.detail);
-    this.toEventDetail();
-  },
-
-  learnMore: function(options) {
-    wx.navigateTo({
-      url: '../eventDetail/eventDetail?id=' + options.currentTarget.dataset.id
-    })
+    this.toEventDetail(info.detail);
   },
 
   //获取菜谱

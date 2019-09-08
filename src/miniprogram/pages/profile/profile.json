@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "mohaTitle": "../../components/mohaTitle/mohaTitle",
+    "mohaBar": "../../components/mohaBar/mohaBar",
+    "mohaSwiper": "../../components/mohaSwiper/mohaSwiper",
+    "mohaCard": "../../components/mohaCard/mohaCard"
+  }
+}
