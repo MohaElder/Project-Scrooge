@@ -11,6 +11,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showDialog:false,
+    checkboxItems: [
+    ],
+    price: "Free"
   },
 
   /**
@@ -22,7 +26,8 @@ Page({
       if (app.globalData.eventList[i]._id == options.id) {
         console.log(app.globalData.eventList[i]);
         that.setData({
-          event: app.globalData.eventList[i]
+          event: app.globalData.eventList[i],
+          checkboxItems: app.globalData.eventList[i].commodities
         })
       }
     }
@@ -32,6 +37,50 @@ Page({
     console.log(e);
     this.setData({
       index: e.detail.value
+    })
+  },
+
+  openDialog: function () {
+    this.setData({
+      istrue: true
+    })
+  },
+  
+  closeDialog: function () {
+    this.setData({
+      istrue: false
+    })
+  },
+
+  checkboxChange: function (e) {
+    var checkboxItems = this.data.checkboxItems
+    var values = e.detail.value;
+    var price = 0;
+    for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
+      checkboxItems[i].checked = false;
+
+      for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
+        if (checkboxItems[i].price == values[j]) {
+          checkboxItems[i].checked = true;
+          price += checkboxItems[i].price;
+          break;
+        }
+      }
+    }
+
+    this.setData({
+      checkboxItems: checkboxItems,
+      price: price
+    });
+
+  },
+
+  purchase: function() {
+    this.setData({
+      istrue: false
+    })
+    wx.showToast({
+      title: 'Success!',
     })
   },
 

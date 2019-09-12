@@ -13,6 +13,8 @@
  <image class = "uiImageItem" wx:for='{{eventList}}' wx:key='item' src='{{item.contentPic}}' style='position: absolute; top: {{item.top}}px; left: {{item.left}}px; width: {{imgWidth}}px; height: {{item.height}}px' bindload='loadImage' data-index='{{index}}' data-id = "{{item._id}}" bindtap='getImageId'/>
 </scroll-view>
 
-<button bindtap = 'payMoney'>Test Payment</button>
+<!--<button bindtap = 'payMoney'>Test Payment</button>
 
-<button bindtap = 'pay2'>Test Payment via Cashier</button>
+<button bindtap = 'pay2'>Test Payment via Cashier</button>-->
+
+<view class="uiFooter">------This is the end.------</view>

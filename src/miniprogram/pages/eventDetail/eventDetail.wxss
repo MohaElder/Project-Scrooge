@@ -6,7 +6,6 @@ page {
 .container {
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   flex-wrap: wrap;
   align-content: center;
@@ -39,6 +38,7 @@ page {
   font-weight: 300;
   color: white;
   min-height: 15px;
+  margin-top: 230px;
   margin-left: 15px;
   margin-bottom: 5px;
 }
@@ -58,7 +58,7 @@ page {
   font-family: "RaleWay";
   font-style: "normal";
   font-weight: 500;
-  color: #a3a3a1;
+  color: #d3d3d3;
   margin-left: 15px;
   width: 100%;
 }
@@ -76,3 +76,21 @@ page {
   bottom: 2%;
   left: 8%;
 }
+
+.weui-demo-dialog{
+  visibility:hidden;
+  opacity:0;
+  transition:all .3s;
+}
+.weui-half-screen-dialog{
+  transition:all .3s;
+  transform:translateY(100%);
+}
+.weui-demo-dialog_show{
+  visibility:visible;
+  opacity:1;
+}
+.weui-demo-dialog_show .weui-half-screen-dialog{
+    transform:translateY(0);
+}
+

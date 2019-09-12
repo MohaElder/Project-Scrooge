@@ -6,24 +6,13 @@ Page({
    */
   data: {
     weekList: [{
-        name: "TitleC",
-        desc: "Jenn",
-        imageUrl: "https://wx1.sinaimg.cn/mw690/006tozhpgy1g5zenmgujyj31900u0e87.jpg",
+        name: "Arctic Trip",
+      imageUrl: "https://mohaelder.oss-cn-beijing.aliyuncs.com/contentPic.jpg",
         id: "AAA",
-        location: "Luo Xiu Rd.",
-        price: "30",
+        location: "Norway",
+        price: "20",
         date: "2019/9/27",
-        provider: "More Club"
-      },
-      {
-        name: "TitleD",
-        desc: "Yun",
-        imageUrl: "https://wx3.sinaimg.cn/mw690/006tozhpgy1g5zenkcwwzj31900u07wn.jpg",
-        id: "BBB",
-        location: "Luo Xiu Rd.",
-        price: "30",
-        date: "2019/9/27",
-        provider: "More Club"
+        provider: "MohaElder169"
       }
     ],
   },

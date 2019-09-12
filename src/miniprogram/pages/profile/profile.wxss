@@ -1,1 +1,13 @@
 /* miniprogram/pages/profile/profile.wxss */
+.uiFooter{
+  position: relative;
+  bottom: 2%;
+  font-size: 12px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 500;
+  color: grey;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 5px;
+}

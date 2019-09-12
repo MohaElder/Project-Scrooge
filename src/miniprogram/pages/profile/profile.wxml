@@ -3,3 +3,5 @@
 <block wx:for = "{{weekList}}">
 <mohaCard bindcustomevent="getImageIdCustom" event = "{{item}}"></mohaCard>
 </block>
+
+<view class="uiFooter">------This is the end.------</view>

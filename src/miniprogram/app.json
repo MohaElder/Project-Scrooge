@@ -26,12 +26,14 @@
       {
         "pagePath": "pages/index/index",
         "iconPath": "/assets/home.png",
-        "selectedIconPath": "/assets/homeSelected.png"
+        "selectedIconPath": "/assets/homeSelected.png",
+        "text": "Home"
       },
       {
         "pagePath": "pages/profile/profile",
         "iconPath": "/assets/user.png",
-        "selectedIconPath": "/assets/userSelected.png"
+        "selectedIconPath": "/assets/userSelected.png",
+        "text": "Me"
       }
     ]
   }
