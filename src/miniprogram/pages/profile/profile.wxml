@@ -1,7 +1,26 @@
 <mohaTitle>My Events</mohaTitle>
 
-<block wx:for = "{{weekList}}">
-<mohaCard bindcustomevent="getImageIdCustom" event = "{{item}}"></mohaCard>
+<block wx:for="{{checkList}}">
+  <mohaCard data-id="{{item._id}}" price = "{{item.totalPrice}}" time="{{item.time}}" event="{{item.event}}" bindtap="openDialog"></mohaCard>
 </block>
 
-<view class="uiFooter">------This is the end.------</view>
+<view class="weui-demo-dialog {{istrue ? 'weui-demo-dialog_show' : ''}}">
+  <view class="weui-mask" bindtap="closeDialog"></view>
+  <view class="weui-dialog__wrp" bindtap="closeDialog">
+    <view class="weui-dialog" catchtap="stopEvent">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">Show This As Ticket</view>
+      </view>
+      <view class="weui-dialog__bd qrcode" bindtap="closeDialog">
+        <canvas canvas-id="qrcode" />
+      </view>
+      <view class="weui-dialog__ft">
+        <view class="uiDesc">Ticket ID: {{currentID}}</view>
+        <!--<view class="weui-dialog__btn weui-dialog__btn_default" bindtap="closeDialog">取消</view>
+        <view class="weui-dialog__btn" bindtap="closeDialog">确定</view>-->
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="uiFooter">------This is the end------</view>

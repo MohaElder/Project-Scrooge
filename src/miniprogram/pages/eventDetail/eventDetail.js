@@ -5,6 +5,9 @@ const db = wx.cloud.database();
 const _ = db.command;
 const util = require('../../utils/util.js');
 
+var commodity = [];
+var price = 0;
+
 Page({
 
   /**
@@ -55,7 +58,8 @@ Page({
   checkboxChange: function (e) {
     var checkboxItems = this.data.checkboxItems
     var values = e.detail.value;
-    var price = 0;
+    price = 0;
+    commodity = [];
     for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
       checkboxItems[i].checked = false;
 
@@ -63,6 +67,8 @@ Page({
         if (checkboxItems[i].price == values[j]) {
           checkboxItems[i].checked = true;
           price += checkboxItems[i].price;
+          commodity.push(i);
+          //console.log(commodity);
           break;
         }
       }
@@ -75,13 +81,77 @@ Page({
 
   },
 
-  purchase: function() {
+  joinEvent: function() {
     this.setData({
       istrue: false
     })
+    this.purchase();
     wx.showToast({
       title: 'Success!',
     })
+  },
+
+  //确认触发购买函数
+  purchase: function () {
+    wx.showLoading({
+      title: '正在调制孟婆汤',
+    })
+    this.updateOrder();
+    this.updateCheck();
+    this.updateLocal();
+    wx.hideLoading();
+  },
+
+  //更新数据库仓库信息
+  updateOrder: function () {
+    var that = this;
+    for (var i = 0; i < commodity.length; i++) {
+      wx.cloud.callFunction({
+        name: 'updateDB',
+        data: {
+          dbName: "event",
+          id: this.data.event._id,
+          index: commodity[i],
+          commID: this.data.event.commodities[commodity[i]].commID,
+          stock: this.data.event.commodities[commodity[i]].stock - 1
+        }
+      }).then(res => {
+
+      }).catch(console.error);
+    }
+  },
+
+  //更新数据库订单信息
+  updateCheck: function () {
+    var that = this;
+    var checkID = "mooa";
+    for (var i = 0; i < 6; i++) {
+      checkID += Number.parseInt(Math.random() * 10);
+    }
+    var time = util.formatTime(new Date());
+
+    db.collection("check").add({
+      data: {
+        _id: checkID,
+        user: app.globalData.user,
+        event: that.data.event,
+        commodities: commodity,
+        time: time,
+        isRated: false,
+        totalPrice: price
+      }
+    });
+    // res.data 包含该记录的数据
+  },
+
+  //刷新本地渲染信息
+  updateLocal: function () {
+    var that = this;
+    that.setData({
+      isOrdered: true,
+      modalName: "purchaseDone"
+    });
+    app.globalData.isOrdered = true;
   },
 
   /**

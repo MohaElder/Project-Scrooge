@@ -5,34 +5,13 @@ const db = wx.cloud.database();
 const _ = db.command;
 const util = require('../../utils/util.js');
 
-var currentFoodIndex = 0; //食物列表位置
-
-//表单参数 Todo：更改为Form形式
 var openid = "";
 var eventList = [];
 var count = 1;
-var gradeChosen = 'Class of 2020';
-var classChosen = 0;
-var codeChosen = '';
-var sayingChosen = '';
-var validationChosen = '';
 
 
 Page({
   data: {
-    weekList: [{
-        name: "TitleC",
-        desc: "Jenn",
-        url: "https://wx1.sinaimg.cn/mw690/006tozhpgy1g5zenmgujyj31900u0e87.jpg",
-        id: "AAA",
-      },
-      {
-        name: "TitleD",
-        desc: "Yun",
-        url: "https://wx3.sinaimg.cn/mw690/006tozhpgy1g5zenkcwwzj31900u07wn.jpg",
-        id: "BBB"
-      }
-    ],
     gradeIndex: 0,
     gradePicker: ['Class of 2020', 'Class of 2021', 'Class of 2022', 'Class of 2023', 'Class of 2024'],
     userInfo: {},
@@ -193,31 +172,6 @@ Page({
 
   },
 
-  //以下为表单函数
-  //获取班级
-  getClass: function(e) {
-    classChosen = e.detail.value;
-  },
-
-  //获取学号
-  getCode: function(e) {
-    codeChosen = e.detail.value;
-  },
-
-  //获取校验码
-  getValidation: function(e) {
-    validationChosen = e.detail.value;
-  },
-
-  //获取年级
-  PickerChange(e) {
-    this.setData({
-      gradeIndex: e.detail.value
-    })
-    gradeChosen = this.data.gradePicker[e.detail.value];
-  },
-  //以上为表单函数
-
   //判断是否是Admin=>是否显示Admin按钮
   isAdmin: function(user) {
     var that = this;
@@ -277,123 +231,11 @@ Page({
     }
   },
 
-  //确认触发购买函数
-  confirmPurchase: function() {
-    this.updateOrder(currentFoodIndex);
-    this.setData({
-      modalName: null
-    })
-  },
-
-  //更新数据库菜谱（仓库）信息
-  updateOrder: function(index) {
-    var that = this;
-    var orderTemp = orderList[index];
-
-    wx.showLoading({
-      title: '正在调制孟婆汤',
-    })
-    wx.cloud.callFunction({
-      name: 'updateDB',
-      data: {
-        dbName: "order",
-        id: orderTemp._id,
-        stock: orderTemp.stock - 1
-      }
-    }).then(res => {
-      that.updateUser(orderTemp);
-      that.updateCheck(orderTemp);
-      that.updateLocal();
-      wx.hideLoading();
-    }).catch(console.error);
-  },
-
-  //更新数据库用户信息
-  updateUser: function(order) {
-    var that = this;
-    var orderTemp = that.data.order;
-
-    db.collection('user').doc(openid).update({
-      data: {
-        orderID: _.push(order._id),
-        isOrdered: true
-      }
-    });
-    // res.data 包含该记录的数据
-  },
-
-  //更新数据库订单信息
-  updateCheck: function(order) {
-    var that = this;
-    var checkID = "moha";
-    for (var i = 0; i < 6; i++) {
-      checkID += Number.parseInt(Math.random() * 10);
-    }
-    var time = util.formatTime(new Date());
-    db.collection("check").add({
-      data: {
-        _id: checkID,
-        user: app.globalData.user,
-        order: order,
-        time: time,
-        isFinished: false,
-        isRated: false
-      }
-    });
-    // res.data 包含该记录的数据
-  },
-
-  //刷新本地渲染信息
-  updateLocal: function() {
-    var that = this;
-    that.setData({
-      isOrdered: true,
-      modalName: "purchaseDone"
-    });
-    app.globalData.isOrdered = true;
-  },
-
-  //显示购买弹窗
-  purchase: function(options) {
-    var that = this;
-    var now = new Date();
-    if (this.data.isAdmin == true) {
-      currentFoodIndex = options.currentTarget.dataset.index;
-      this.setData({
-        modalName: "purchase"
-      })
-    } else if (now.getHours() < 8 || now.getHours() > 12) {
-      wx.showModal({
-        title: '很难受,你点不了餐了',
-        content: '你点餐的时候超过服务时间了，难受吗？',
-      })
-      this.setData({
-        outOfTime: true
-      })
-    } else {
-      currentFoodIndex = options.currentTarget.dataset.index;
-      this.setData({
-        modalName: "purchase"
-      })
-    }
-
-  },
-
   //隐藏弹窗
   hideModal(value) {
     this.setData({
       modalName: null,
       isBlur: false,
-    });
-  },
-
-  //跳转至个人中心
-  toSelf: function() {
-    this.setData({
-      modalName: null
-    })
-    wx.navigateTo({
-      url: '../self/self',
     });
   },
 
@@ -431,6 +273,7 @@ Page({
       },
     });
   },
+
   pay2: function() {
     var name = "MohaElder169"
     var appSecret = "12438e8779c241079b651babc2139760";

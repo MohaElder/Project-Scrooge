@@ -4,12 +4,14 @@ const db = cloud.database()
 const _ = db.command
 exports.main = async (event, context) => {
   try {
-    return await db.collection(event.dbName).doc(event.id).update({
+    console.log(event.index, event.commID, event.dbName, event.id, event.stock)
+    var path = 'commodities.' + event.index + '.stock';
+    console.log(path);
+    return await db.collection(event.dbName).where({
+      'commodities.commID': event.commID
+    }).update({
       data: {
-      isAdmin:event.isAdmin,
-      isPrisoner: event.isPrisoner,
-      stock: event.stock,
-      isAlarmed: event.isAlarmed
+        ['commodities.' + event.index + '.stock']: event.stock
       }
     })
   } catch (e) {

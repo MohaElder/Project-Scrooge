@@ -18,6 +18,16 @@ Component({
         provider: "More Club",
         _id: "moha88888"
       }
+    },
+
+    price: {
+      type: Number,
+      value: 15
+    },
+
+    time: {
+      type: String,
+      value: "2001/09/27"
     }
   },
 

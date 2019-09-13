@@ -1,10 +1,10 @@
 <view class = "container" bindtap="navigate">
-<image class = "uiImage" src="{{event.imageUrl}}" mode="scaleToFit"></image>
+<image class = "uiImage" src="{{event.contentPic}}" mode="scaleToFit"></image>
 <view class="content">
 <view class="uiTitle">{{event.name}}</view>
 <view class="uiDesc">Location: {{event.location}}</view>
-<view class="uiDesc">¥ {{event.price}}</view>
-<view class="uiDesc">{{event.date}}</view>
+<view class="uiDesc">¥ {{price}}</view>
+<view class="uiDesc">{{time}}</view>
 <view class="uiDesc" style="font-weight: bold;">From {{event.provider}}</view>
 </view>
 
