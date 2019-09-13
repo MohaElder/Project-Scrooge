@@ -7,11 +7,7 @@ TODO-Features:
 ## Redo form registration
 ## CMS System
 ## Payment System
-
-
 ## Event Showing <= Use QIONIO  ✔
-## Create New Event <= Use QIONIO
-## Set Bank account? Relate this with payment system to figure out how to do it first.
 ## User Management System. ✔
 ## Share Event
 ## Form Template
