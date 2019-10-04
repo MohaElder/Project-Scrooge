@@ -1,7 +1,7 @@
 <view class = "container" bindtap="navigate">
 <image class = "uiImage" src="{{event.contentPic}}" mode="scaleToFit"></image>
 <view class="content">
-<view class="uiTitle">{{event.name}}</view>
+<view class="uiTitle">{{event.name}} <text class="uiStatus">Status: {{status}}</text></view>
 <view class="uiDesc">Location: {{event.location}}</view>
 <view class="uiDesc">¥ {{price}}</view>
 <view class="uiDesc">{{time}}</view>

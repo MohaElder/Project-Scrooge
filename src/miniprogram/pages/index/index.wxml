@@ -18,3 +18,4 @@
 <button bindtap = 'pay2'>Test Payment via Cashier</button>-->
 
 <view class="uiFooter">------This is the end------</view>
+

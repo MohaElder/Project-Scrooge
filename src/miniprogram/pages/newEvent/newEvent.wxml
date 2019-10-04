@@ -1,0 +1,162 @@
+<mohaTitle>Create New Event</mohaTitle>
+
+<form bindsubmit="createEvent">
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell ">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Name</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input name="eventName" class="weui-input" placeholder="Name of the event" />
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder-class="uiLabel" name="eventDesc" placeholder="Event Descirption" style="height: 3.3em" />
+          <view class="weui-textarea-counter uiLabel">0/200</view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cell ">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Provider</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input name="eventName" class="weui-input" name = "eventProvider" placeholder="Name of the event provider" />
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Cover Pic</view>
+      </view>
+      <view class="weui-cell__bd">
+        <view class="weui-uploader">
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__input-box" wx:if="{{pics.coverPic==''}}">
+              <view class="weui-uploader__input" bindtap="chooseImage" data-imagename="coverPic"></view>
+            </view>
+            <view class="weui-uploader__files" id="uploaderFiles" wx:else>
+              <view class="weui-uploader__file">
+                <image class="weui-uploader__img" src="{{pics.coverPic}}" mode="aspectFill" bindtap="chooseImage" data-imagename="coverPic" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Content Pic</view>
+      </view>
+      <view class="weui-cell__bd">
+        <view class="weui-uploader">
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__input-box" wx:if="{{pics.contentPic==''}}">
+              <view class="weui-uploader__input" bindtap="chooseImage" data-imagename="contentPic"></view>
+            </view>
+            <view class="weui-uploader__files" id="uploaderFiles" wx:else>
+              <view class="weui-uploader__file">
+                <image class="weui-uploader__img" src="{{pics.contentPic}}" mode="aspectFill" bindtap="chooseImage" data-imagename="contentPic" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Big Pic</view>
+      </view>
+      <view class="weui-cell__bd">
+        <view class="weui-uploader">
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__input-box" wx:if="{{pics.bigPic==''}}">
+              <view class="weui-uploader__input" bindtap="chooseImage" data-imagename="bigPic"></view>
+            </view>
+            <view class="weui-uploader__files" id="uploaderFiles" wx:else>
+              <view class="weui-uploader__file">
+                <image class="weui-uploader__img" src="{{pics.bigPic}}" mode="aspectFill" bindtap="chooseImage" data-imagename="bigPic" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Payment Pic</view>
+      </view>
+      <view class="weui-cell__bd">
+        <view class="weui-uploader">
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__input-box" wx:if="{{pics.paymentPic==''}}">
+              <view class="weui-uploader__input" bindtap="chooseImage" data-imagename="paymentPic"></view>
+            </view>
+            <view class="weui-uploader__files" id="uploaderFiles" wx:else>
+              <view class="weui-uploader__file">
+                <image class="weui-uploader__img" src="{{pics.paymentPic}}" mode="aspectFill" bindtap="chooseImage" data-imagename="paymentPic" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cell ">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Location</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input name="eventLocation" class="weui-input" placeholder="Location of the event" />
+      </view>
+    </view>
+    <view class="weui-cell ">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Date</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker mode="date" value="{{date}}" start="2019-09-01" end="2077-09-01" bindchange="bindDateChange">
+          <view class="weui-input">{{date}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell ">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Time</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker mode="time" value="{{time}}" start="00:00" end="23:59" bindchange="bindTimeChange">
+          <view class="weui-input">{{time}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell ">
+      <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Item Number</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input" placeholder="e.g: 2" type="number" bindinput="inputItemNumber" />
+      </view>
+    </view>
+    <block wx:for="{{itemNumber}}" wx:key="{{itemNumber}}">
+      <view class="weui-cell ">
+        <view class="weui-cell__hd">
+          <view class="weui-label uiLabel">Name</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" data-index="{{item}}" bindinput="addItemName" placeholder="Name of the item" />
+        </view>
+      </view>
+      <view class="weui-cell ">
+        <view class="weui-cell__hd">
+          <view class="weui-label uiLabel">Price</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" data-index="{{item}}" bindinput="addItemPrice" placeholder="Enter 0 for free" />
+        </view>
+      </view>
+    </block>
+  </view>
+  <button class="uiButton" form-type="submit">Preview Event</button>
+</form>
+<!--<view class="weui-cells__tips">底部说明文字底部说明文字</view>-->

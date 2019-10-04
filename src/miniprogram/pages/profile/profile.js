@@ -10,22 +10,74 @@ Page({
    */
   data: {
     showDialog: false,
-    weekList: [{
-        name: "Arctic Trip",
-      imageUrl: "https://mohaelder.oss-cn-beijing.aliyuncs.com/contentPic.jpg",
-        id: "AAA",
-        location: "Norway",
-        price: "20",
-        date: "2019/9/27",
-        provider: "MohaElder169"
-      }
-    ],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+
+  },
+
+  saveID: function () {
+    wx.setClipboardData({
+      data: this.data.checkID,
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            console.log(res.data) // data
+          }
+        })
+      }
+    })
+  },
+
+  scanCode: function (options) {
+    var that = this;
+    wx.downloadFile({
+      url: options.currentTarget.dataset.src,
+      success: function (res) {
+        //图片保存到本地
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: function (res) {
+            that.setData({
+              isImage: false
+            })
+            wx.showModal({
+              title: 'Image Saved!',
+              content: 'Use Scan Code in WeChat and scan the payment image. Remember to type in the copied ticket ID in the side note.',
+            })
+          },
+        })
+      }
+    })
+  },
+
+  closeDialog: function() {
+    wxbarcode.qrcode('qrcode', 'FreedomIsNotFree', 0, 0);
+    this.setData({
+      istrue: false
+    })
+  },
+
+  closeImage: function () {
+    this.setData({
+      isImage: false
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
     wx.showLoading({
       title: '正在打发土地爷',
     });
@@ -48,38 +100,51 @@ Page({
           user: app.globalData.user,
           checkList: checkList
         });
+        for (var i = 0; i < checkList.length; i++) {
+          if (checkList[i].status == "Pending") {
+            wx.showModal({
+              title: 'Warning',
+              content: 'You still have pending check',
+            })
+            i = 999;
+          }
+        }
         wx.hideLoading();
       })
       .catch(console.error);
   },
 
-  closeDialog: function () {
-    wxbarcode.qrcode('qrcode', 'FreedomIsNotFree', 0, 0);
-    this.setData({
-      istrue: false
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
   openDialog: function(options) {
-    console.log();
-    wxbarcode.qrcode('qrcode', options.currentTarget.dataset.id, 420, 420);
-    this.setData({
-      istrue:true,
-      currentID: options.currentTarget.dataset.id
+    console.log(options);
+    if (options.currentTarget.dataset.status == "Pending"){
+      wx.setClipboardData({
+        data: options.currentTarget.dataset.id,
+        success(res) {
+          wx.getClipboardData({
+            success(res) {
+              console.log(res.data) // data
+            }
+          })
+        }
+      })
+      this.setData({
+        isImage:true,
+        currentPaymentPic: options.currentTarget.dataset.paymentpic,
+        checkID: options.currentTarget.dataset.id
+      })
+    }
+    else{
+      wxbarcode.qrcode('qrcode', options.currentTarget.dataset.id, 420, 420);
+      this.setData({
+        istrue: true,
+        currentID: options.currentTarget.dataset.id
+      })
+    }
+  },
+
+  toNewEvent: function(){
+    wx.navigateTo({
+      url: '../newEvent/newEvent',
     })
   }
 

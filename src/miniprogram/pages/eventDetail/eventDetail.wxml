@@ -59,3 +59,21 @@
     </view>
   </view>
 </view>
+
+<view class="weui-demo-dialog {{isImage ? 'weui-demo-dialog_show' : ''}}">
+  <view class="weui-mask" bindtap="closeImage"></view>
+  <view class="weui-dialog__wrp">
+    <view class="weui-dialog">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">Tap & Save Payment Image</view>
+      </view>
+      <view class="weui-dialog__bd qrcode">
+<image style = "height:400px;" src="{{event.paymentPic}}" data-src = "{{event.paymentPic}}" bindtap="scanCode"></image>
+      </view>
+      <view class="weui-dialog__ft">
+        <view class="uiDescPay" bindtap="saveID">Payment ID: {{checkID}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+

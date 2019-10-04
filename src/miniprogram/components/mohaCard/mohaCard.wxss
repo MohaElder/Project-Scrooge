@@ -28,6 +28,15 @@
   width: 100%;
 }
 
+.uiStatus {
+  font-size: 12px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: bold;
+  width: 100%;
+  color: grey;
+}
+
 .uiDesc{
   font-size: 12px;
   font-family: "RaleWay";

@@ -28,6 +28,11 @@ Component({
     time: {
       type: String,
       value: "2001/09/27"
+    },
+
+    status: {
+      type: String,
+      value: "Pending"
     }
   },
 

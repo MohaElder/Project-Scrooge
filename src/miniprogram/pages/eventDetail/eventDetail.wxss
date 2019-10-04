@@ -94,3 +94,30 @@ page {
     transform:translateY(0);
 }
 
+.weui-demo-dialog{
+  visibility:hidden;
+  opacity:0;
+  transition:opacity .3s;
+}
+
+.weui-demo-dialog_show{
+  visibility:visible;
+  opacity:1;
+}
+
+.qrcode {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.uiDescPay {
+  font-size: 15px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 400;
+  color: black;
+  text-align: center;
+  width: 100%;
+}

@@ -14,9 +14,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    showDialog:false,
-    checkboxItems: [
-    ],
+    showDialog: false,
+    checkboxItems: [],
     price: "Free"
   },
 
@@ -43,19 +42,25 @@ Page({
     })
   },
 
-  openDialog: function () {
+  openDialog: function() {
     this.setData({
       istrue: true
     })
   },
-  
-  closeDialog: function () {
+
+  closeDialog: function() {
     this.setData({
       istrue: false
     })
   },
 
-  checkboxChange: function (e) {
+  closeImage: function() {
+    this.setData({
+      isImage: false
+    })
+  },
+
+  checkboxChange: function(e) {
     var checkboxItems = this.data.checkboxItems
     var values = e.detail.value;
     price = 0;
@@ -86,24 +91,45 @@ Page({
       istrue: false
     })
     this.purchase();
-    wx.showToast({
-      title: 'Success!',
-    })
   },
 
   //确认触发购买函数
-  purchase: function () {
-    wx.showLoading({
-      title: '正在调制孟婆汤',
+  purchase: function() {
+    var checkID = "mooa";
+    for (var i = 0; i < 6; i++) {
+      checkID += Number.parseInt(Math.random() * 10);
+    }
+    wx.setClipboardData({
+      data: checkID,
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            console.log(res.data) // data
+          }
+        })
+      }
     })
-    this.updateOrder();
-    this.updateCheck();
-    this.updateLocal();
-    wx.hideLoading();
+    this.setData({
+      isImage: true,
+      checkID: checkID
+    })
+  },
+
+  saveID: function(){
+    wx.setClipboardData({
+      data: this.data.checkID,
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            console.log(res.data) // data
+          }
+        })
+      }
+    })
   },
 
   //更新数据库仓库信息
-  updateOrder: function () {
+  updateOrder: function() {
     var that = this;
     for (var i = 0; i < commodity.length; i++) {
       wx.cloud.callFunction({
@@ -121,13 +147,45 @@ Page({
     }
   },
 
-  //更新数据库订单信息
-  updateCheck: function () {
+  scanCode: function(options) {
     var that = this;
-    var checkID = "mooa";
-    for (var i = 0; i < 6; i++) {
-      checkID += Number.parseInt(Math.random() * 10);
-    }
+    wx.downloadFile({
+      url: options.currentTarget.dataset.src,
+      success: function(res) {
+        //图片保存到本地
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: function(res) {
+            wx.showLoading({
+              title: '正在调制孟婆汤',
+            })
+            that.setData({
+              isImage: false
+            })
+            that.updateOrder();
+            that.updateCheck(that.data.checkID);
+            that.updateLocal();
+            wx.hideLoading();
+            wx.showModal({
+              title: 'Image Saved!',
+              content: 'Use Scan Code in WeChat and scan the payment image. Remember to type in the copied ticket ID in the side note.',
+              success: function(res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '../profile/profile',
+                  })
+                }
+              }
+            })
+          }
+        })
+      }
+    })
+  },
+
+  //更新数据库订单信息
+  updateCheck: function(checkID) {
+    var that = this;
     var time = util.formatTime(new Date());
 
     db.collection("check").add({
@@ -138,14 +196,15 @@ Page({
         commodities: commodity,
         time: time,
         isRated: false,
-        totalPrice: price
+        totalPrice: price,
+        status: "Pending"
       }
     });
     // res.data 包含该记录的数据
   },
 
   //刷新本地渲染信息
-  updateLocal: function () {
+  updateLocal: function() {
     var that = this;
     that.setData({
       isOrdered: true,

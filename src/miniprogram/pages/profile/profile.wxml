@@ -1,7 +1,13 @@
+<mohaTitle>My Portal</mohaTitle>
+<block wx:for="{{checkList}}">
+  <mohaCard data-id="{{item._id}}" data-paymentpic = "{{item.event.paymentPic}}" data-status = "{{item.status}}" data-price = "{{item.totalPrice}}" time="{{item.time}}" event="{{item.event}}" status = "{{item.status}}" bindtap="openDialog"></mohaCard>
+</block>
+<button class="uiButton" bindtap="toNewEvent">Create New Event</button>
+
 <mohaTitle>My Events</mohaTitle>
 
 <block wx:for="{{checkList}}">
-  <mohaCard data-id="{{item._id}}" price = "{{item.totalPrice}}" time="{{item.time}}" event="{{item.event}}" bindtap="openDialog"></mohaCard>
+  <mohaCard data-id="{{item._id}}" data-paymentpic = "{{item.event.paymentPic}}" data-status = "{{item.status}}" data-price = "{{item.totalPrice}}" time="{{item.time}}" event="{{item.event}}" status = "{{item.status}}" bindtap="openDialog"></mohaCard>
 </block>
 
 <view class="weui-demo-dialog {{istrue ? 'weui-demo-dialog_show' : ''}}">
@@ -18,6 +24,23 @@
         <view class="uiDesc">Ticket ID: {{currentID}}</view>
         <!--<view class="weui-dialog__btn weui-dialog__btn_default" bindtap="closeDialog">取消</view>
         <view class="weui-dialog__btn" bindtap="closeDialog">确定</view>-->
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="weui-demo-dialog {{isImage ? 'weui-demo-dialog_show' : ''}}">
+  <view class="weui-mask" bindtap="closeImage"></view>
+  <view class="weui-dialog__wrp">
+    <view class="weui-dialog">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">Tap & Save Payment Image</view>
+      </view>
+      <view class="weui-dialog__bd paymentPic">
+<image style = "height:400px;" src="{{currentPaymentPic}}" data-src = "{{currentPaymentPic}}" bindtap="scanCode"></image>
+      </view>
+      <view class="weui-dialog__ft">
+        <view class="uiDesc" bindtap="saveID">Payment ID: {{checkID}}</view>
       </view>
     </view>
   </view>

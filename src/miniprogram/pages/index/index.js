@@ -30,6 +30,10 @@ Page({
 
   //页面每次打开运行
   onLoad: function() {
+
+  },
+
+  onShow: function() {
     wx.showLoading({
       title: '调制猪排冰淇淋',
     })
@@ -56,7 +60,7 @@ Page({
     })
   },
 
-  toEventDetail: function(id){
+  toEventDetail: function(id) {
     wx.navigateTo({
       url: './../eventDetail/eventDetail?id=' + id,
     })
@@ -95,7 +99,7 @@ Page({
     this.toEventDetail(info.currentTarget.dataset.id);
   },
 
-  getImageIdCustom: function (info) {
+  getImageIdCustom: function(info) {
     this.toEventDetail(info.detail);
   },
 
@@ -172,18 +176,6 @@ Page({
 
   },
 
-  //判断是否是Admin=>是否显示Admin按钮
-  isAdmin: function(user) {
-    var that = this;
-    if (user.isAdmin == true) {
-      that.setData({
-        isAdmin: true
-      });
-    } else {
-      that.isPrisoner(user);
-    }
-  },
-
   //从数据库下载用户信息
   sync: function() {
     var that = this;
@@ -213,37 +205,9 @@ Page({
 
   },
 
-  //跳转至给定参数界面
-  navigate: function(options) {
-    var pageName = options.currentTarget.dataset.pagename
-    var link = "../" + pageName + "/" + pageName;
-    wx.navigateTo({
-      url: link,
-    });
-  },
-
-  //随机选择贴心语句
-  roll: function() {
-    count += 1;
-    if (count == 3) {
-      count = 0;
-      this.showAxiom();
-    }
-  },
-
-  //隐藏弹窗
-  hideModal(value) {
-    this.setData({
-      modalName: null,
-      isBlur: false,
-    });
-  },
-
   //下拉刷新
   onPullDownRefresh: function() {
-    wx.reLaunch({
-      url: '../index/index',
-    })
+    this.onShow();
   },
 
   payMoney: function(name, price, order_id) {

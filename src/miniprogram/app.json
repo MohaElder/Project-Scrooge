@@ -6,7 +6,8 @@
     "components/mohaBar/mohaBar",
     "components/mohaSwiper/mohaSwiper",
     "pages/profile/profile",
-    "components/mohaCard/mohaCard"
+    "components/mohaCard/mohaCard",
+    "pages/newEvent/newEvent"
   ],
   "window": {
     "backgroundColor": "#FFFFFFF",
