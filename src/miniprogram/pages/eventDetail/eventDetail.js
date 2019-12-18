@@ -149,8 +149,8 @@ Page({
 
   scanCode: function(options) {
     var that = this;
-    wx.downloadFile({
-      url: options.currentTarget.dataset.src,
+    wx.cloud.downloadFile({
+      fileID: options.currentTarget.dataset.src,
       success: function(res) {
         //图片保存到本地
         wx.saveImageToPhotosAlbum({

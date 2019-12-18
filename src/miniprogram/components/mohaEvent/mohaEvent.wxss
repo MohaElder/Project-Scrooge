@@ -1,0 +1,46 @@
+/* miniprogram/components/mohaCard/mohaCard.wxss */
+
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.uiImage {
+  height: 120px;
+  width: 300px;
+  border-radius: 10px;
+}
+
+.content{
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 10px;
+}
+
+.uiTitle {
+  font-size: 15px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: bold;
+  width: 100%;
+}
+
+.uiStatus {
+  font-size: 12px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: bold;
+  width: 100%;
+  color: grey;
+}
+
+.uiDesc{
+  font-size: 12px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 300;
+  width: 100%;
+}

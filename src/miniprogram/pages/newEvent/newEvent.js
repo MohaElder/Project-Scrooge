@@ -92,6 +92,9 @@ Page({
   },
 
   createEvent: function(res) {
+    wx.showLoading({
+      title: 'Uploading...',
+    })
     for (var i = 0; i < items.length; i++) {
       if (items[i].name == "") {
         items.splice(i, 1);
@@ -143,10 +146,12 @@ Page({
                         contentPic: contentPic,
                         coverPic: coverPic,
                         paymentPic: paymentPic,
-                        commodities: items
+                        commodities: items,
+                        createdBy: app.globalData.openid
                       },
                       success: function(res) {
                         console.log("Content uploaded. " , res);
+                        wx.hideLoading();
                       }
                     });
                   }

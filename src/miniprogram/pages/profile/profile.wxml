@@ -6,8 +6,8 @@
 
 <mohaTitle>My Events</mohaTitle>
 
-<block wx:for="{{checkList}}">
-  <mohaCard data-id="{{item._id}}" data-paymentpic = "{{item.event.paymentPic}}" data-status = "{{item.status}}" data-price = "{{item.totalPrice}}" time="{{item.time}}" event="{{item.event}}" status = "{{item.status}}" bindtap="openDialog"></mohaCard>
+<block wx:for="{{myList}}">
+  <mohaEvent data-id="{{item._id}}" event="{{item}}" bindtap="openEvent"></mohaEvent>
 </block>
 
 <view class="weui-demo-dialog {{istrue ? 'weui-demo-dialog_show' : ''}}">

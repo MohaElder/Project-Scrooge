@@ -3,6 +3,7 @@
     "mohaTitle": "../../components/mohaTitle/mohaTitle",
     "mohaBar": "../../components/mohaBar/mohaBar",
     "mohaSwiper": "../../components/mohaSwiper/mohaSwiper",
-    "mohaCard": "../../components/mohaCard/mohaCard"
+    "mohaCard": "../../components/mohaCard/mohaCard",
+    "mohaEvent": "../../components/mohaEvent/mohaEvent"
   }
 }

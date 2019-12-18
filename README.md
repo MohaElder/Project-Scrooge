@@ -6,8 +6,17 @@ TODO-Features:
 ## Validation System
 ## Redo form registration
 ## CMS System
-## Payment System
+## Payment System 
 ## Event Showing <= Use QIONIO  ✔
 ## User Management System. ✔
 ## Share Event
 ## Form Template
+
+Separate My Events & My Portal Data
+
+CMS
+
+Change Check Status
+
+Event增改查删
+
