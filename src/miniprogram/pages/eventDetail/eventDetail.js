@@ -26,7 +26,9 @@ Page({
     var that = this;
     for (var i = 0; i < app.globalData.eventList.length; i++) {
       if (app.globalData.eventList[i]._id == options.id) {
-        console.log(app.globalData.eventList[i]);
+        for(let item of app.globalData.eventList[i].commodities){
+          item.checked = false;
+        }
         that.setData({
           event: app.globalData.eventList[i],
           checkboxItems: app.globalData.eventList[i].commodities
@@ -60,30 +62,48 @@ Page({
     })
   },
 
+  inputStock: function(e) {
+    var checkboxItem = this.data.checkboxItems[e.target.dataset.index]
+    var pricePath = 'checkboxItems[' + e.target.dataset.index + '].price';
+    var price = checkboxItem.price * e.detail.value;
+    console.log(price);
+    //var stockPath = 'checkboxItems[' + e.target.dataset.index + '].stock';
+    this.setData({
+      [pricePath]: price,
+      //[stockPath]: _.inc(-e.detail.value)
+    })
+    this.calcPrice();
+  },
+
   checkboxChange: function(e) {
-    var checkboxItems = this.data.checkboxItems
-    var values = e.detail.value;
-    price = 0;
-    commodity = [];
+    var checkboxItems = this.data.checkboxItems, values = e.detail.value;
     for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
       checkboxItems[i].checked = false;
+      for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
+        if (checkboxItems[i].value == values[j]) {
+          checkboxItems[i].checked = true;
+          break;
+        }
+      }
+    }
+    this.setData({
+      checkboxItems: checkboxItems
+    });
 
+  },
+
+  calcPrice: function() {
+    for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
+      checkboxItems[i].checked = false;
       for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
         if (checkboxItems[i].price == values[j]) {
           checkboxItems[i].checked = true;
           price += checkboxItems[i].price;
           commodity.push(i);
-          //console.log(commodity);
           break;
         }
       }
     }
-
-    this.setData({
-      checkboxItems: checkboxItems,
-      price: price
-    });
-
   },
 
   joinEvent: function() {
@@ -118,13 +138,13 @@ Page({
         that.updateLocal();
         that.setData({
           isImage: true,
-          checkID:checkID
+          checkID: checkID
         })
       }
     })
   },
 
-  saveID: function(){
+  saveID: function() {
     wx.setClipboardData({
       data: this.data.checkID,
       success(res) {

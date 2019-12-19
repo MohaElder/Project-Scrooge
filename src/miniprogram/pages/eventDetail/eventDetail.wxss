@@ -57,8 +57,8 @@ page {
   font-size: 13.5px;
   font-family: "RaleWay";
   font-style: "normal";
-  font-weight: 500;
-  color: #d3d3d3;
+  font-weight: bold;
+  color: white;
   margin-left: 15px;
   width: 100%;
 }
