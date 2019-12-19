@@ -12,8 +12,6 @@ TODO-Features:
 ## Share Event
 ## Form Template
 
-Separate My Events & My Portal Data
-
 CMS
 
 Change Check Status

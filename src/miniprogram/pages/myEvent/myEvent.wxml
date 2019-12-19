@@ -1,2 +1,70 @@
-<!--miniprogram/pages/myEvents/myEvents.wxml-->
-<text>miniprogram/pages/myEvents/myEvents.wxml</text>
+<mohaTitle>{{event.name}}</mohaTitle>
+<image mode="scaleToFit" src="{{event.coverPic}}"></image>
+<mohaBar>Total Sales: {{checkList.length}}</mohaBar>
+<mohaBar>Total Revenue: {{revenue}}</mohaBar>
+<button class="uiButton" bindtap="editEvent">Edit</button>
+<mohaTitle>Checks</mohaTitle>
+  <view class="weui-search-bar">
+    <view class="weui-search-bar__form">
+      <view class="weui-search-bar__box">
+        <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+        <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+        <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+          <icon type="clear" size="14"></icon>
+        </view>
+      </view>
+      <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+        <icon class="weui-icon-search" type="search" size="14"></icon>
+        <view class="weui-search-bar__text">搜索</view>
+      </label>
+    </view>
+    <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+  </view>
+  <view class="weui-cells searchbar-result" wx:for="{{searchResult}}" wx:key = "{{item.user}}">
+    <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+      <view class="weui-cell__bd">
+        <view>{{item.user.info.nickName}}</view>
+      </view>
+    </navigator>
+  </view>
+<block wx:for="{{checkList}}" wx:key="{{item.user}}">
+  <mohaCard data-id="{{item._id}}" data-paymentpic="{{item.event.paymentPic}}" data-status="{{item.status}}" data-price="{{item.totalPrice}}" time="{{item.time}}" event="{{item.event}}" status="{{item.status}}" bindtap="openDialog"></mohaCard>
+</block>
+
+<view class="weui-demo-dialog {{istrue ? 'weui-demo-dialog_show' : ''}}">
+  <view class="weui-mask" bindtap="closeDialog"></view>
+  <view class="weui-dialog__wrp" bindtap="closeDialog">
+    <view class="weui-dialog" catchtap="stopEvent">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">Show This As Ticket</view>
+      </view>
+      <view class="weui-dialog__bd qrcode" bindtap="closeDialog">
+        <canvas canvas-id="qrcode" />
+      </view>
+      <view class="weui-dialog__ft">
+        <view class="uiDesc">Ticket ID: {{currentID}}</view>
+        <!--<view class="weui-dialog__btn weui-dialog__btn_default" bindtap="closeDialog">取消</view>
+        <view class="weui-dialog__btn" bindtap="closeDialog">确定</view>-->
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="weui-demo-dialog {{isImage ? 'weui-demo-dialog_show' : ''}}">
+  <view class="weui-mask" bindtap="closeImage"></view>
+  <view class="weui-dialog__wrp">
+    <view class="weui-dialog">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">Tap & Save Payment Image</view>
+      </view>
+      <view class="weui-dialog__bd paymentPic">
+        <image style="height:400px;" src="{{currentPaymentPic}}" data-src="{{currentPaymentPic}}" bindtap="scanCode"></image>
+      </view>
+      <view class="weui-dialog__ft">
+        <view class="uiDesc" bindtap="saveID">Payment ID: {{checkID}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="uiFooter">------This is the end------</view>
