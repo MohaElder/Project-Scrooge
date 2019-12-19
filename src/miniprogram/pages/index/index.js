@@ -8,12 +8,13 @@ const util = require('../../utils/util.js');
 var openid = "";
 var eventList = [];
 var count = 1;
-
+var userInfo = {};
 
 Page({
   data: {
     gradeIndex: 0,
     gradePicker: ['Class of 2020', 'Class of 2021', 'Class of 2022', 'Class of 2023', 'Class of 2024'],
+    isRegistered: true,
     userInfo: {},
     card: false,
     swiperList: [],
@@ -30,18 +31,6 @@ Page({
 
   //页面每次打开运行
   onLoad: function() {
-
-  },
-
-  onShow: function() {
-    wx.showLoading({
-      title: '调制猪排冰淇淋',
-    })
-    this.getOrderList();
-    this.onGetOpenid();
-    wx.showLoading({
-      title: '加载中...',
-    })
     var that = this;
     //获取页面宽高度
     wx.getSystemInfo({
@@ -58,6 +47,15 @@ Page({
         })
       }
     })
+    this.getOrderList();
+    this.onGetOpenid();
+    wx.showLoading({
+      title: '加载中...',
+    })
+  },
+
+  onShow: function() {
+
   },
 
   toEventDetail: function(id) {
@@ -68,6 +66,8 @@ Page({
 
   //加载图片
   loadImage: function(e) {
+    var that = this;
+    var coverPics = [];
     var index = e.currentTarget.dataset.index; //图片所在索引
     var imgW = e.detail.width,
       imgH = e.detail.height; //图片实际宽度和高度
@@ -106,6 +106,7 @@ Page({
   //获取菜谱
   getOrderList: function() {
     var that = this;
+    var coverPics = [];
     wx.cloud.callFunction({
         name: 'getDB',
         data: {
@@ -116,8 +117,24 @@ Page({
         console.log(res)
         eventList = res.result.data;
         app.globalData.eventList = res.result.data;
-        that.setData({
-          eventList: eventList
+        for (let event of eventList) {
+          coverPics.push({
+            fileID: event.coverPic,
+            maxAge: 60 * 60, // one hourevent.coverPic)
+          })
+        }
+        wx.cloud.getTempFileURL({
+          fileList: coverPics
+        }).then(res => {
+          // get temp file URL
+          for (let i = 0; i < eventList.length; i++) {
+            eventList[i].coverPic = res.fileList[i].tempFileURL
+          }
+          that.setData({
+            eventList: eventList
+          });
+        }).catch(error => {
+          // handle error
         })
 
       })
@@ -142,38 +159,45 @@ Page({
     });
   },
 
+  //获取微信用户信息
+  getUserInfo: function(res) {
+    wx.showLoading({
+      title: 'Validating......',
+    })
+    userInfo = res.detail.userInfo;
+    this.setData({
+      isValidated: true
+    })
+    wx.hideLoading();
+
+  },
   //用户注册
   register: function(res) {
-    var secretCode = '11-1=2';
-    if (classChosen != '' && codeChosen != '' && validationChosen == secretCode && classChosen > 0 && classChosen < 11 && codeChosen.substr(0, 1) == 'G') {
+    if (res.detail.value.classRoom != '' && res.detail.value.name != '' && res.detail.value.classRoom > 0 && res.detail.value.classRoom < 12) {
       var that = this;
-      var userInfo = res.detail.userInfo;
-      app.globalData.user = userInfo;
       db.collection('user').add({
         data: {
           _id: openid,
           info: userInfo,
-          orderID: [],
-          isOrdered: false,
-          grade: gradeChosen,
-          classroom: classChosen,
-          code: codeChosen,
-          isPrisoner: false,
+          name: res.detail.value.name,
+          grade: res.detail.value.grade,
+          classroom: res.detail.value.classRoom,
           isAdmin: false,
           isAlarmed: false
         }
       });
       app.globalData.user = res.data;
       wx.showToast({
-        title: '您已注册！',
+        title: 'Registered!',
       });
-      that.sync();
+      wx.reLaunch({
+        url: '../index/index',
+      })
     } else {
       wx.showToast({
-        title: '别想混过去',
+        title: 'Info Incorrect',
       })
     }
-
   },
 
   //从数据库下载用户信息
@@ -198,7 +222,7 @@ Page({
       fail: function() {
         wx.hideLoading();
         that.setData({
-          modalName: "registerModal"
+          isRegistered: false
         });
       }
     });
@@ -207,65 +231,6 @@ Page({
 
   //下拉刷新
   onPullDownRefresh: function() {
-    this.onShow();
+
   },
-
-  payMoney: function(name, price, order_id) {
-    wx.navigateToMiniProgram({
-      appId: 'wxd02fe3fa8e320487',
-      path: 'pages/index/index',
-      extraData: {
-        'aid': '5985',
-        'name': name,
-        'pay_type': 'jsapi',
-        'price': price,
-        'order_id': order_id,
-        'notify_url': 'https://abc.com/notify',
-        'sign': md5.md5(name + 'jsapi' + price + order_id + 'https://abc.com/notify' + '12438e8779c241079b651babc2139760'),
-      },
-      fail(res) {
-        wx.showToast({
-          title: res.errMsg,
-          icon: 'none',
-        });
-      },
-      success(res) {
-        wx.showToast({
-          title: '跳转成功',
-          icon: 'none',
-        });
-      },
-    });
-  },
-
-  pay2: function() {
-    var name = "MohaElder169"
-    var appSecret = "12438e8779c241079b651babc2139760";
-    var price = '0.2';
-    var order_id = "esesvesvsvwdadwdvevesaevavavawvwac";
-    wx.request({
-      url: 'https://xorpay.com/api/cashier/5985',
-      data: {
-        name: name,
-        pay_type: 'jsapi',
-        price: price,
-        order_id: order_id,
-        notify_url: 'https://abc.com/notify',
-        sign: md5.md5(name + 'jsapi' + price + order_id + 'https://abc.com/notify' + '12438e8779c241079b651babc2139760'),
-      },
-      method: 'POST',
-      header: {
-        'content-type': 'application/x-www-form-urlencoded' // 默认值
-      },
-      success(res) {
-        console.log(res)
-      },
-      fail(res) {
-        console.log("Failed!")
-        console.log(res)
-      }
-    })
-  }
-
-
 });

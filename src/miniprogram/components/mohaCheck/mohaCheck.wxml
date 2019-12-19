@@ -1,0 +1,10 @@
+<view class = "container" bindtap="navigate">
+<view class="content">
+<view class="uiTitle">Purchased by: {{name}}</view>
+<view class="uiDesc">checkID: {{id}}</view>
+<view class="uiDesc">Purchased on: {{time}}</view>
+<view class="uiDesc">Price: {{price}}</view>
+<view class="uiDesc" style="font-weight: bold;">Status: {{status}}</view>
+</view>
+
+</view>

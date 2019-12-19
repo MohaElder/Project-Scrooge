@@ -95,23 +95,32 @@ Page({
 
   //确认触发购买函数
   purchase: function() {
-    var checkID = "mooa";
-    for (var i = 0; i < 6; i++) {
-      checkID += Number.parseInt(Math.random() * 10);
-    }
-    wx.setClipboardData({
-      data: checkID,
+    var that = this;
+    wx.requestSubscribeMessage({
+      tmplIds: ['KWz4gYx0OcHMZfVFPNjXx43ln50Sllf5Fklj8IfqVks'],
       success(res) {
-        wx.getClipboardData({
+        var checkID = "mooa";
+        for (var i = 0; i < 6; i++) {
+          checkID += Number.parseInt(Math.random() * 10);
+        }
+        wx.setClipboardData({
+          data: checkID,
           success(res) {
-            console.log(res.data) // data
+            wx.getClipboardData({
+              success(res) {
+                console.log(res.data) // data
+              }
+            })
           }
         })
+        that.updateOrder();
+        that.updateCheck(checkID);
+        that.updateLocal();
+        that.setData({
+          isImage: true,
+          checkID:checkID
+        })
       }
-    })
-    this.setData({
-      isImage: true,
-      checkID: checkID
     })
   },
 
@@ -162,9 +171,6 @@ Page({
             that.setData({
               isImage: false
             })
-            that.updateOrder();
-            that.updateCheck(that.data.checkID);
-            that.updateLocal();
             wx.hideLoading();
             wx.showModal({
               title: 'Image Saved!',

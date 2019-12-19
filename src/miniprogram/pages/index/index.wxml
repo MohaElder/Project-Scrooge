@@ -1,21 +1,70 @@
-
-<mohaTitle>Hi there~</mohaTitle>
+<mohaTitle>
+  Hi there~</mohaTitle>
 
 <mohaBar>What's Trending</mohaBar>
 
-<mohaSwiper bindcustomevent="getImageIdCustom" eventList = "{{eventList}}" isMini = "{{false}}"></mohaSwiper>
+<mohaSwiper bindcustomevent="getImageIdCustom" eventList="{{eventList}}" isMini="{{false}}"></mohaSwiper>
 
 <mohaBar>See All</mohaBar>
 
-<!--<mohaSwiper bindcustomevent="getImageId" eventList = "{{weekList}}" isMini = "{{true}}"></mohaSwiper>-->
-
 <scroll-view class='cataractContainer' scroll-y='true' style="height:{{windowHeight/2}}px">
- <image class = "uiImageItem" wx:for='{{eventList}}' wx:key='item' src='{{item.contentPic}}' style='position: absolute; top: {{item.top}}px; left: {{item.left}}px; width: {{imgWidth}}px; height: {{item.height}}px' bindload='loadImage' data-index='{{index}}' data-id = "{{item._id}}" bindtap='getImageId'/>
+  <image class="uiImageItem" wx:for='{{eventList}}' wx:key='item' src='{{item.contentPic}}' style='position: absolute; top: {{item.top}}px; left: {{item.left}}px; width: {{imgWidth}}px; height: {{item.height}}px' bindload='loadImage' data-index='{{index}}'
+    data-id="{{item._id}}" bindtap='getImageId' />
 </scroll-view>
 
-<!--<button bindtap = 'payMoney'>Test Payment</button>
+<view class="weui-demo-dialog {{isRegistered ? '' : 'weui-demo-dialog_show'}}">
+  <view class="weui-mask" bindtap="closeImage"></view>
+  <view class="weui-dialog__wrp">
+    <view class="weui-dialog">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">Registration</view>
+      </view>
+      <view class="weui-dialog__bd">
+        <view class="weui-form__control-area">
+          <form bindsubmit="register">
+            <view class="weui-cells__group weui-cells__group_form">
+              <view class="weui-cells weui-cells_form">
+                <view class="weui-cell">
+                  <view class="weui-cell__hd">
+                    <label class="weui-label">Grade</label>
+                  </view>
+                  <view class="weui-cell__bd">
+                    <picker bindchange="PickerChange" value="{{gradePicker[gradeIndex]}}" range="{{gradePicker}}" name="grade">
+                      <view class="picker">
+                        {{gradePicker[gradeIndex]}}
+                      </view>
+                    </picker>
+                  </view>
+                </view>
+                <view class="weui-cell">
+                  <view class="weui-cell__hd">
+                    <label class="weui-label">Name</label>
+                  </view>
+                  <view class="weui-cell__bd">
+                    <input class="weui-input" placeholder="Preferred Name" name="name" />
+                  </view>
+                </view>
+                <view class="weui-cell">
+                  <view class="weui-cell__hd">
+                    <label class="weui-label">Class</label>
+                  </view>
+                  <view class="weui-cell__bd">
+                    <input class="weui-input" placeholder="Use 1 for IB" type='number' name="classRoom" />
+                  </view>
+                </view>
+                <view wx:if="{{!isValidated}}">
+                  <button class='uiButton' bindgetuserinfo='getUserInfo' open-type="getUserInfo">Validate Info</button>
+                </view>
+                <view wx:else>
+                  <button class='uiButton' form-type="submit">Register</button>
+                </view>
+              </view>
+            </view>
+          </form>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
 
-<button bindtap = 'pay2'>Test Payment via Cashier</button>-->
-
-<view class="uiFooter">------This is the end------</view>
-
+<view class="uiFooter">------This is my limit------</view>

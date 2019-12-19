@@ -11,11 +11,13 @@ Page({
    */
   data: {
     event: {},
-    checkList:[],
-    showDialog: false,
+    checkList: [],
     isImage: false,
     inputShowed: false,
-    inputVal: ""
+    inputVal: "",
+    isTrue: false,
+    selectedIndex: 99999,
+
   },
 
   /**
@@ -39,6 +41,7 @@ Page({
       });
       this.calcRevenue(res.data);
     })
+
   },
 
   /**
@@ -90,7 +93,22 @@ Page({
 
   },
 
-  calcRevenue: function (checks) {
+  kindToggle: function(e) {
+    var id = e.currentTarget.id,
+      list = this.data.list;
+    for (var i = 0, len = list.length; i < len; ++i) {
+      if (list[i].id == id) {
+        list[i].open = !list[i].open
+      } else {
+        list[i].open = false
+      }
+    }
+    this.setData({
+      list: list
+    });
+  },
+
+  calcRevenue: function(checks) {
     let revenue = 0;
     for (let check of checks) {
       revenue += check.totalPrice;
@@ -100,38 +118,109 @@ Page({
     })
   },
 
-  showInput: function () {
+  showInput: function() {
     this.setData({
       inputShowed: true
     });
   },
-  hideInput: function () {
+  hideInput: function() {
     this.setData({
       inputVal: "",
       inputShowed: false
     });
   },
-  clearInput: function () {
+  clearInput: function() {
     this.setData({
       inputVal: ""
     });
   },
-  inputTyping: function (e) {
+  inputTyping: function(e) {
     var searchResult = [];
-    for(let check of this.data.checkList){
-      if(e.detail.value == ''){
+    for (let check of this.data.checkList) {
+      if (e.detail.value == '') {
         this.setData({
           searchResult: []
         })
         break;
       }
-      if(check.user.info.nickName.indexOf(e.detail.value)>=0 && searchResult.includes(check) == false){
+      if (check.user.name.indexOf(e.detail.value) >= 0 && searchResult.includes(check) == false) {
         searchResult.push(check)
       }
     }
     this.setData({
       inputVal: e.detail.value,
-      searchResult:searchResult
+      searchResult: searchResult
     });
   },
+
+  openDialog: function(e) {
+    wx.showToast({
+      title: 'AAA',
+    })
+    this.setData({
+      isTrue: true,
+      selectedIndex: e.currentTarget.dataset.index
+    })
+  },
+
+  closeDialog: function() {
+    this.setData({
+      isTrue: false
+    })
+  },
+
+  deleteCheck: function() {
+    wx.showLoading({
+      title: 'Deleting...',
+    })
+    wx.cloud.callFunction({
+        name: 'deleteDB',
+        data: {
+          dbName: "check",
+          id: this.data.checkList[this.data.selectedIndex]._id
+        }
+      })
+      .then(res => {
+        wx.hideLoading();
+        wx.showToast({
+          title: 'Deleted',
+        })
+      })
+      .catch(console.error);
+  },
+
+  changeStatus: function(e) {
+    wx.showLoading({
+      title: 'Updating...',
+    })
+    wx.cloud.callFunction({
+        name: 'updateStatus',
+        data: {
+          id: this.data.checkList[this.data.selectedIndex]._id,
+          status: e.currentTarget.dataset.status
+        }
+      })
+      .then(res => {
+        console.log(this.data.checkList[this.data.selectedIndex].status)
+        wx.cloud.callFunction({
+            name: 'sendMessage',
+            data: {
+              openid: this.data.checkList[this.data.selectedIndex]._openid,
+              checkID: this.data.checkList[this.data.selectedIndex]._id,
+              eventName: this.data.checkList[this.data.selectedIndex].event.name,
+              status: e.currentTarget.dataset.status,
+              time: this.data.checkList[this.data.selectedIndex].time,
+            }
+          })
+          .then(res => {
+            wx.hideLoading();
+            wx.showToast({
+              title: 'Updated',
+            })
+          })
+          .catch(console.error);
+      })
+      .catch(console.error);
+  },
+
 })

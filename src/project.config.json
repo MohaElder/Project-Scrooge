@@ -20,9 +20,10 @@
 	},
 	"appid": "wx2f46f57f3d9914cb",
 	"projectname": "scrooge",
-	"libVersion": "2.8.1",
+	"libVersion": "2.9.4",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"condition": {
 		"search": {
 			"current": -1,

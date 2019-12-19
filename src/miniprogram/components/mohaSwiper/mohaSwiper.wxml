@@ -7,7 +7,7 @@
           {{item.name}}
         </view>
         <view class="uiDesc">
-          {{item.provider}}
+          From {{item.provider}}
         </view>
       </view>
     </view>

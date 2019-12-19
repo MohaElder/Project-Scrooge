@@ -27,7 +27,7 @@ Page({
     for (var i = 0; i < 99; i++) {
       items.push({
         name: "",
-        price: ""
+        price: 0
       });
     }
   },
@@ -54,7 +54,7 @@ Page({
       for (var i = 0; i < 99; i++) {
         items.push({
           name: "",
-          price: ""
+          price: 0
         });
       }
 
@@ -77,7 +77,7 @@ Page({
 
   addItemPrice: function(e) {
     console.log(e.currentTarget.dataset.index, e.detail.value)
-    items[e.currentTarget.dataset.index].price = e.detail.value
+    items[e.currentTarget.dataset.index].price =  Number(e.detail.value)
   },
 
   bindDateChange: function(e) {
