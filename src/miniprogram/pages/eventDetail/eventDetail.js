@@ -26,7 +26,7 @@ Page({
     var that = this;
     for (var i = 0; i < app.globalData.eventList.length; i++) {
       if (app.globalData.eventList[i]._id == options.id) {
-        for(let item of app.globalData.eventList[i].commodities){
+        for (let item of app.globalData.eventList[i].commodities) {
           item.checked = false;
         }
         that.setData({
@@ -76,18 +76,10 @@ Page({
   },
 
   checkboxChange: function(e) {
-    var checkboxItems = this.data.checkboxItems, values = e.detail.value;
-    for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
-      checkboxItems[i].checked = false;
-      for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
-        if (checkboxItems[i].value == values[j]) {
-          checkboxItems[i].checked = true;
-          break;
-        }
-      }
-    }
+    var checkboxItems = this.data.checkboxItems
+    var checkedPath = 'checkboxItems[' + e.currentTarget.dataset.index + '].checked'
     this.setData({
-      checkboxItems: checkboxItems
+      [checkedPath]: !checkboxItems[e.currentTarget.dataset.index].checked
     });
 
   },
