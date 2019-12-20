@@ -1,6 +1,6 @@
 <mohaTitle>My Checks</mohaTitle>
 <block wx:for="{{checkList}}">
-  <mohaCard data-id="{{item._id}}" data-paymentpic = "{{item.event.paymentPic}}" data-status = "{{item.status}}" data-price = "{{item.totalPrice}}" time="{{item.time}}" event="{{item.event}}" status = "{{item.status}}" bindtap="openDialog"></mohaCard>
+  <mohaCard data-id="{{item._id}}" data-paymentpic = "{{item.event.paymentPic}}" data-status = "{{item.status}}" time="{{item.time}}" event="{{item.event}}" status = "{{item.status}}" price = "{{item.totalPrice}}" bindtap="openDialog"></mohaCard>
 </block>
 
 <mohaTitle>My Events</mohaTitle>

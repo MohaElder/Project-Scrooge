@@ -132,6 +132,14 @@
     </view>
     <view class="weui-cell ">
       <view class="weui-cell__hd">
+        <view class="weui-label uiLabel">Note Mockup</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input" bindinput="addItemNote" placeholder="Customized note placeholder" />
+      </view>
+    </view>
+    <view class="weui-cell ">
+      <view class="weui-cell__hd">
         <view class="weui-label uiLabel">Item Number</view>
       </view>
       <view class="weui-cell__bd">
@@ -157,7 +165,7 @@
       </view>
       <view class="weui-cell ">
         <view class="weui-cell__hd">
-          <view class="weui-label uiLabel">Price</view>
+          <view class="weui-label uiLabel">Stock</view>
         </view>
         <view class="weui-cell__bd">
           <input class="weui-input" data-index="{{item}}" bindinput="addItemStock" placeholder="Stock number" />

@@ -5,9 +5,6 @@ const db = wx.cloud.database();
 const _ = db.command;
 const util = require('../../utils/util.js');
 
-var commodity = [];
-var price = 0;
-
 Page({
 
   /**
@@ -29,10 +26,11 @@ Page({
         for (let item of app.globalData.eventList[i].commodities) {
           item.checked = false;
           item.addedPrice = item.price;
+          item.initialStock = item.stock;
         }
         that.setData({
           event: app.globalData.eventList[i],
-          checkboxItems: app.globalData.eventList[i].commodities
+          checkboxItems: app.globalData.eventList[i].commodities,
         })
       }
     }
@@ -63,9 +61,9 @@ Page({
     })
   },
 
-  inputNote: function(e){
+  inputNote: function(e) {
     this.setData({
-      note:e.detail.value
+      note: e.detail.value
     })
   },
 
@@ -74,10 +72,20 @@ Page({
     var pricePath = 'checkboxItems[' + e.target.dataset.index + '].addedPrice';
     var price = checkboxItem.price * e.detail.value;
     var stockPath = 'checkboxItems[' + e.target.dataset.index + '].stock';
-    this.setData({
-      [pricePath]: price,
-      [stockPath]: _.inc(-e.detail.value)
-    })
+    var stock = checkboxItem.initialStock - e.detail.value;
+    var purchasedPath = 'checkboxItems[' + e.target.dataset.index + '].purchasedNum';
+    if (Number(e.detail.value) > Number(checkboxItem.initialStock)) {
+      wx.showToast({
+        icon: 'none',
+        title: 'Stock Limit Reached'
+      })
+    } else {
+      this.setData({
+        [pricePath]: price,
+        [stockPath]: stock,
+        [purchasedPath]: e.detail.value
+      })
+    }
     this.calcPrice();
   },
 
@@ -92,8 +100,8 @@ Page({
 
   calcPrice: function() {
     var totalPrice = 0;
-    for(let item of this.data.checkboxItems){
-      if(item.checked){
+    for (let item of this.data.checkboxItems) {
+      if (item.checked) {
         totalPrice += item.addedPrice;
       }
     }
@@ -156,15 +164,15 @@ Page({
   //更新数据库仓库信息
   updateOrder: function() {
     var that = this;
-      wx.cloud.callFunction({
-        name: 'updateDB',
-        data: {
-          id: this.data.event._id,
-          commodities: this.data.checkboxItems
-        }
-      }).then(res => {
+    wx.cloud.callFunction({
+      name: 'updateDB',
+      data: {
+        id: this.data.event._id,
+        commodities: this.data.checkboxItems
+      }
+    }).then(res => {
 
-      }).catch(console.error);
+    }).catch(console.error);
   },
 
   scanCode: function(options) {
@@ -202,17 +210,23 @@ Page({
 
   //更新数据库订单信息
   updateCheck: function(checkID) {
-    var that = this;
     var time = util.formatTime(new Date());
+    var checkboxItems = this.data.checkboxItems;
+    var commodities = [];
+    for (let item of checkboxItems) {
+      if (item.checked) {
+        commodities.push(item);
+      }
+    }
     db.collection("check").add({
       data: {
         _id: checkID,
         user: app.globalData.user,
-        event: that.data.event,
-        commodities: commodity,
+        event: this.data.event,
+        commodities: commodities,
         time: time,
         isRated: false,
-        totalPrice: price,
+        totalPrice: this.data.price,
         note: this.data.note,
         status: "Pending"
       }

@@ -79,6 +79,11 @@ Page({
   addItemStock: function(e) {
     items[e.currentTarget.dataset.index].stock = e.detail.value
   },
+  addItemStock: function(e) {
+    this.setData({
+      note:e.detail.value
+    })
+  },
 
   bindDateChange: function(e) {
     this.setData({
@@ -154,7 +159,8 @@ Page({
                         coverPic: coverPic,
                         paymentPic: paymentPic,
                         commodities: items,
-                        createdBy: app.globalData.openid
+                        createdBy: app.globalData.openid,
+                        note: this.data.note
                       },
                       success: function(res) {
                         console.log("Content uploaded. ", res);
