@@ -71,13 +71,13 @@ Page({
   },
 
   addItemName: function(e) {
-    console.log(e.currentTarget.dataset.index, e.detail.value)
     items[e.currentTarget.dataset.index].name = e.detail.value
   },
-
   addItemPrice: function(e) {
-    console.log(e.currentTarget.dataset.index, e.detail.value)
-    items[e.currentTarget.dataset.index].price =  Number(e.detail.value)
+    items[e.currentTarget.dataset.index].price = Number(e.detail.value)
+  },
+  addItemStock: function(e) {
+    items[e.currentTarget.dataset.index].stock = e.detail.value
   },
 
   bindDateChange: function(e) {
@@ -95,13 +95,20 @@ Page({
     wx.showLoading({
       title: 'Uploading...',
     })
-    for (var i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
       if (items[i].name == "") {
         items.splice(i, 1);
         i = 0;
       }
     }
-    console.log(res.detail.value, this.data.pics, this.data.date, this.data.time, items); //pics are in array
+
+    for (let item of items) {
+      item.commID = "mocomm";
+      for (let i = 0; i < 6; i++) {
+        item.commID += Number.parseInt(Math.random() * 10);
+      }
+    }
+
     var name = res.detail.value.eventName,
       provider = res.detail.value.eventProvider,
       location = res.detail.value.eventLocation,
@@ -150,7 +157,7 @@ Page({
                         createdBy: app.globalData.openid
                       },
                       success: function(res) {
-                        console.log("Content uploaded. " , res);
+                        console.log("Content uploaded. ", res);
                         wx.hideLoading();
                       }
                     });

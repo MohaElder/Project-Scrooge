@@ -23,7 +23,7 @@
         <view class="weui-label uiLabel">Provider</view>
       </view>
       <view class="weui-cell__bd">
-        <input name="eventName" class="weui-input" name = "eventProvider" placeholder="Name of the event provider" />
+        <input name="eventName" class="weui-input" name="eventProvider" placeholder="Name of the event provider" />
       </view>
     </view>
     <view class="weui-cell">
@@ -153,6 +153,14 @@
         </view>
         <view class="weui-cell__bd">
           <input class="weui-input" data-index="{{item}}" bindinput="addItemPrice" placeholder="Enter 0 for free" />
+        </view>
+      </view>
+      <view class="weui-cell ">
+        <view class="weui-cell__hd">
+          <view class="weui-label uiLabel">Price</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" data-index="{{item}}" bindinput="addItemStock" placeholder="Stock number" />
         </view>
       </view>
     </block>

@@ -16,7 +16,7 @@ Page({
   data: {
     showDialog: false,
     checkboxItems: [],
-    price: "Free"
+    price: 0
   },
 
   /**
@@ -28,6 +28,7 @@ Page({
       if (app.globalData.eventList[i]._id == options.id) {
         for (let item of app.globalData.eventList[i].commodities) {
           item.checked = false;
+          item.addedPrice = item.price;
         }
         that.setData({
           event: app.globalData.eventList[i],
@@ -62,15 +63,20 @@ Page({
     })
   },
 
+  inputNote: function(e){
+    this.setData({
+      note:e.detail.value
+    })
+  },
+
   inputStock: function(e) {
     var checkboxItem = this.data.checkboxItems[e.target.dataset.index]
-    var pricePath = 'checkboxItems[' + e.target.dataset.index + '].price';
+    var pricePath = 'checkboxItems[' + e.target.dataset.index + '].addedPrice';
     var price = checkboxItem.price * e.detail.value;
-    console.log(price);
-    //var stockPath = 'checkboxItems[' + e.target.dataset.index + '].stock';
+    var stockPath = 'checkboxItems[' + e.target.dataset.index + '].stock';
     this.setData({
       [pricePath]: price,
-      //[stockPath]: _.inc(-e.detail.value)
+      [stockPath]: _.inc(-e.detail.value)
     })
     this.calcPrice();
   },
@@ -81,21 +87,19 @@ Page({
     this.setData({
       [checkedPath]: !checkboxItems[e.currentTarget.dataset.index].checked
     });
-
+    this.calcPrice();
   },
 
   calcPrice: function() {
-    for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
-      checkboxItems[i].checked = false;
-      for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
-        if (checkboxItems[i].price == values[j]) {
-          checkboxItems[i].checked = true;
-          price += checkboxItems[i].price;
-          commodity.push(i);
-          break;
-        }
+    var totalPrice = 0;
+    for(let item of this.data.checkboxItems){
+      if(item.checked){
+        totalPrice += item.addedPrice;
       }
     }
+    this.setData({
+      price: totalPrice
+    })
   },
 
   joinEvent: function() {
@@ -152,20 +156,15 @@ Page({
   //更新数据库仓库信息
   updateOrder: function() {
     var that = this;
-    for (var i = 0; i < commodity.length; i++) {
       wx.cloud.callFunction({
         name: 'updateDB',
         data: {
-          dbName: "event",
           id: this.data.event._id,
-          index: commodity[i],
-          commID: this.data.event.commodities[commodity[i]].commID,
-          stock: this.data.event.commodities[commodity[i]].stock - 1
+          commodities: this.data.checkboxItems
         }
       }).then(res => {
 
       }).catch(console.error);
-    }
   },
 
   scanCode: function(options) {
@@ -205,7 +204,6 @@ Page({
   updateCheck: function(checkID) {
     var that = this;
     var time = util.formatTime(new Date());
-
     db.collection("check").add({
       data: {
         _id: checkID,
@@ -215,10 +213,11 @@ Page({
         time: time,
         isRated: false,
         totalPrice: price,
+        note: this.data.note,
         status: "Pending"
       }
     });
-    // res.data 包含该记录的数据
+    // res.data 包含该记录的数据b
   },
 
   //刷新本地渲染信息

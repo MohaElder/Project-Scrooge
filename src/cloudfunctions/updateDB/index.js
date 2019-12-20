@@ -2,25 +2,18 @@ const cloud = require('wx-server-sdk')
 cloud.init()
 const db = cloud.database()
 const _ = db.command
-exports.main = async (event, context) => {
+exports.main = async(event, context) => {
   try {
-    console.log(event.index, event.commID, event.dbName, event.id, event.stock)
-    return await db.collection(event.dbName).where({
-      'commodities.commID': event.commID
-    }).update({
-      data: {
-        ['commodities.' + event.index + '.stock']: event.stock
-      }
+    return await event.commdities.map(item => {
+      db.collection('event').where({
+        'commodities.commID': item.commID
+      }).update({
+        data: {
+          stock: item.stock
+        }
+      })
     })
   } catch (e) {
     console.error(e)
   }
 }
-
-
-
-
-
-
-
-
