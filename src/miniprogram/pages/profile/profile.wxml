@@ -28,8 +28,8 @@
   </view>
 </view>
 
-<button class="uiButton" bindtap="toNewEvent">Create New Event</button>
-
+<button wx:if = "{{user.isAdmin}}" class="uiButton" bindtap="toNewEvent">Create New Event</button>
+<button wx:else class="uiButton" open-type="contact">I want to create my own event</button>
 <view class="weui-demo-dialog {{isImage ? 'weui-demo-dialog_show' : ''}}">
   <view class="weui-mask" bindtap="closeImage"></view>
   <view class="weui-dialog__wrp">

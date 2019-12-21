@@ -1,5 +1,5 @@
 <mohaTitle>{{event.name}}</mohaTitle>
-<image style = "width:100%" mode="scaleToFit" src="{{event.coverPic}}"></image>
+<image style="width:100%" mode="scaleToFit" src="{{event.coverPic}}"></image>
 <mohaBar>Total Sales: {{checkList.length}}</mohaBar>
 <mohaBar>Total Revenue: {{revenue}}</mohaBar>
 <button class="uiButton" bindtap="editEvent">Edit Event</button>
@@ -21,15 +21,15 @@
   <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
 </view>
 <view class="weui-cells searchbar-result" wx:for="{{searchResult}}" wx:key="{{item.user}}">
-  <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+  <view bindtap="openDialog" class="weui-cell" hover-class="weui-cell_active" data-id="{{item._id}}">
     <view class="weui-cell__bd">
-      <view>{{item.user.name}}</view>
+      <view>{{item.user.name}} {{item._id}}</view>
     </view>
-  </navigator>
+  </view>
 </view>
 
 <block wx:for="{{checkList}}" wx:key="{{item.user}}">
-  <mohaCheck data-index="{{index}}" status="{{item.status}}" name="{{item.user.name}}" price="{{item.totalPrice}}" id="{{item._id}}" bindtap="openDialog"></mohaCheck>
+  <mohaCheck data-id="{{item._id}}" status="{{item.status}}" name="{{item.user.name}}" price="{{item.totalPrice}}" id="{{item._id}}" bindtap="openDialog"></mohaCheck>
 </block>
 
 <view class="weui-demo-dialog {{isTrue ? 'weui-demo-dialog_show' : ''}}">
@@ -49,24 +49,24 @@
     </view>
     <view class="weui-half-screen-dialog__bd">
       <view class="weui-half-screen-dialog__desc">
-        Purchased by {{checkList[selectedIndex].user.name}}
+        Purchased by {{selectedCheck.user.name}}
       </view>
       <view class="weui-half-screen-dialog__desc">
-        checkID: {{checkList[selectedIndex]._id}}
+        checkID: {{selectedCheck._id}}
       </view>
       <view class="weui-half-screen-dialog__desc">
-        status: {{checkList[selectedIndex].status}}
+        status: {{selectedCheck.status}}
       </view>
       <view class="weui-half-screen-dialog__desc">
-        Price: {{checkList[selectedIndex].totalPrice}}
+        Price: {{selectedCheck.totalPrice}}
       </view>
       <view class="weui-half-screen-dialog__desc">
-        Purchased on {{checkList[selectedIndex].time}}
+        Purchased on {{selectedCheck.time}}
       </view>
       <view class="weui-half-screen-dialog__ft">
         <button class="uiButton-small" style="margin-right:10px; background-color: #3f3f3f;" bindtap="deleteCheck">Delete</button>
-        <button wx:if="{{checkList[selectedIndex].status == 'Pending'}}" class="uiButton-small" data-status="Paid" bindtap="changeStatus">Set to Paid</button>
-        <button wx:if="{{checkList[selectedIndex].status == 'Paid'}}" class="uiButton-small" data-status="Pending" bindtap="changeStatus">Set to Pending</button>
+        <button wx:if="{{selectedCheck.status == 'Pending'}}" class="uiButton-small" data-status="Paid" bindtap="changeStatus">Set to Paid</button>
+        <button wx:if="{{selectedCheck.status == 'Paid'}}" class="uiButton-small" data-status="Pending" bindtap="changeStatus">Set to Pending</button>
       </view>
     </view>
   </view>

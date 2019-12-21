@@ -12,12 +12,11 @@ Page({
   data: {
     event: {},
     checkList: [],
+    selectedCheck:{},
     isImage: false,
     inputShowed: false,
     inputVal: "",
-    isTrue: false,
-    selectedIndex: 99999,
-
+    isTrue: false
   },
 
   /**
@@ -143,7 +142,7 @@ Page({
         })
         break;
       }
-      if (check.user.name.indexOf(e.detail.value) >= 0 && searchResult.includes(check) == false) {
+      if ((check.user.name.indexOf(e.detail.value) >= 0 || check._id.indexOf(e.detail.value)) && searchResult.includes(check) == false) {
         searchResult.push(check)
       }
     }
@@ -154,10 +153,14 @@ Page({
   },
 
   openDialog: function(e) {
-    this.setData({
-      isTrue: true,
-      selectedIndex: e.currentTarget.dataset.index
-    })
+    for (let item of this.data.checkList) {
+      if (item._id == e.currentTarget.dataset.id) {
+        this.setData({
+          isTrue: true,
+          selectedCheck: item,
+        })
+      }
+    }
   },
 
   closeDialog: function() {
@@ -174,7 +177,7 @@ Page({
         name: 'deleteDB',
         data: {
           dbName: "check",
-          id: this.data.checkList[this.data.selectedIndex]._id
+          id: this.data.selectedId
         }
       })
       .then(res => {
@@ -193,20 +196,19 @@ Page({
     wx.cloud.callFunction({
         name: 'updateStatus',
         data: {
-          id: this.data.checkList[this.data.selectedIndex]._id,
+          id: this.data.selectedid,
           status: e.currentTarget.dataset.status
         }
       })
       .then(res => {
-        console.log(this.data.checkList[this.data.selectedIndex].status)
         wx.cloud.callFunction({
             name: 'sendMessage',
             data: {
-              openid: this.data.checkList[this.data.selectedIndex]._openid,
-              checkID: this.data.checkList[this.data.selectedIndex]._id,
-              eventName: this.data.checkList[this.data.selectedIndex].event.name,
+              openid: this.data.selectedCheck._openid,
+              checkID: this.data.selectedCheck._id,
+              eventName: this.data.selectedCheck.event.name,
               status: e.currentTarget.dataset.status,
-              time: this.data.checkList[this.data.selectedIndex].time,
+              time: this.data.selectedCheck.time,
             }
           })
           .then(res => {
