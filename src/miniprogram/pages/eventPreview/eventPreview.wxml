@@ -1,0 +1,66 @@
+<view class="container">
+  <image class="bg-image" src="{{event.bigPic}}" mode="scaleToFit">
+    <view class="hoverTexts">
+      <view class="uiTitle">{{event.name}}</view>
+      <view class="uiLabel">From {{event.provider}}</view>
+      <view class="uiLabel">{{event.date}}</view>
+      <view class="uiLabel">At {{event.location}}</view>
+      <view class="uiLabel" style="color:white;">¥ {{event.commodities[0].price}} +</view>
+      <view class="uiDesc">{{event.desc}}</view>
+    </view>
+  </image>
+
+  <button class="uiButton" catchtap="openDialog">Count Me In</button>
+
+</view>
+
+<view class="weui-demo-dialog {{istrue ? 'weui-demo-dialog_show' : ''}}">
+  <view class="weui-mask" bindtap="closeDialog"></view>
+  <view class="weui-half-screen-dialog">
+    <view class="weui-half-screen-dialog__hd">
+      <view class="weui-half-screen-dialog__hd__side">
+        <view bindtap="closeDialog" class="weui-icon-btn weui-icon-btn_close">Close</view>
+      </view>
+      <view class="weui-half-screen-dialog__hd__main">
+        <text class="weui-half-screen-dialog__title">Event Confirmation</text>
+        <!--<text class="weui-half-screen-dialog__subtitle">标题</text>-->
+      </view>
+      <!--<view class="weui-half-screen-dialog__hd__side">
+        <view class="weui-icon-btn weui-icon-btn_more">More</view>
+      </view>-->
+    </view>
+    <view class="weui-half-screen-dialog__bd">
+      <view class="weui-half-screen-dialog__desc">
+        Choose item type
+      </view>
+      <view class="weui-cells weui-cells_checkbox weui-cells_after-title">
+        <view class="weui-cell" wx:for="{{checkboxItems}}" wx:key="value">
+          <view class="weui-cell__bd">
+            <checkbox-group data-index="{{index}}" bindchange="checkboxChange">
+              <label class="weui-cell weui-check__label">
+                <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
+                <view class="weui-cell__hd weui-check__hd_in-checkbox">
+                  <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
+                  <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
+                </view>
+                <view class="weui-cell__bd">{{item.name}}</view>
+              </label>
+            </checkbox-group>
+          </view>
+          <view class="weui-cell__ft">
+            <input style="margin-left = 15px;" type="number" placeholder="{{item.initialStock}} left" data-index="{{index}}" value="" bindinput="inputStock"></input>
+          </view>
+        </view>
+      </view>
+      <view class="weui-half-screen-dialog__tips">
+        <input placeholder="Note: {{event.note}}" bindinput="inputNote" value="{{item.stock}}"></input>
+      </view>
+      <view class="weui-half-screen-dialog__desc">
+        ¥ {{price == 0 ? 'Free' : price}}
+      </view>
+    </view>
+    <view class="weui-half-screen-dialog__ft">
+      <button class="uiButton" bindtap="askCreate">Create</button>
+    </view>
+  </view>
+</view>

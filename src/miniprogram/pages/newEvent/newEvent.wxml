@@ -14,7 +14,7 @@
       <view class="weui-cell">
         <view class="weui-cell__bd">
           <textarea class="weui-textarea" placeholder-class="uiLabel" name="eventDesc" placeholder="Event Descirption" style="height: 3.3em" />
-          <view class="weui-textarea-counter uiLabel">0/200</view>
+          <!--<view class="weui-textarea-counter uiLabel">0/{{wordLimit-desc}}</view>-->
         </view>
       </view>
     </view>

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "mohaTitle": "../../components/mohaTitle/mohaTitle",
+    "mohaBar": "../../components/mohaBar/mohaBar"
+  }
+}

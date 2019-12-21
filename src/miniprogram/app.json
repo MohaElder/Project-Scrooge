@@ -8,7 +8,8 @@
     "pages/profile/profile",
     "components/mohaCard/mohaCard",
     "pages/newEvent/newEvent",
-    "pages/myEvent/myEvent"
+    "pages/myEvent/myEvent",
+    "pages/eventPreview/eventPreview"
   ],
   "window": {
     "backgroundColor": "#FFFFFFF",

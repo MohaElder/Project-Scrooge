@@ -154,9 +154,6 @@ Page({
   },
 
   openDialog: function(e) {
-    wx.showToast({
-      title: 'AAA',
-    })
     this.setData({
       isTrue: true,
       selectedIndex: e.currentTarget.dataset.index

@@ -79,9 +79,9 @@ Page({
   addItemStock: function(e) {
     items[e.currentTarget.dataset.index].stock = e.detail.value
   },
-  addItemStock: function(e) {
+  addItemNote: function(e) {
     this.setData({
-      note:e.detail.value
+      note: e.detail.value
     })
   },
 
@@ -106,78 +106,42 @@ Page({
         i = 0;
       }
     }
-
     for (let item of items) {
       item.commID = "mocomm";
       for (let i = 0; i < 6; i++) {
         item.commID += Number.parseInt(Math.random() * 10);
       }
     }
-
     var name = res.detail.value.eventName,
       provider = res.detail.value.eventProvider,
       location = res.detail.value.eventLocation,
       desc = res.detail.value.eventDesc;
-
     var date = this.data.date + " " + this.data.time;
     var eventID = "moha";
     for (var i = 0; i < 6; i++) {
       eventID += Number.parseInt(Math.random() * 10);
     }
-    console.log("Uploading pictures...")
-    wx.cloud.uploadFile({
-      cloudPath: 'eventPics/' + eventID + "bigPic.png",
-      filePath: this.data.pics.bigPic[0], // 文件路径
-      success: res => {
-        var bigPic = res.fileID
-        wx.cloud.uploadFile({
-          cloudPath: 'eventPics/' + eventID + "coverPic.png",
-          filePath: this.data.pics.coverPic[0], // 文件路径
-          success: res => {
-            var coverPic = res.fileID;
-            wx.cloud.uploadFile({
-              cloudPath: 'eventPics/' + eventID + "contentPic.png",
-              filePath: this.data.pics.contentPic[0], // 文件路径
-              success: res => {
-                var contentPic = res.fileID
-                wx.cloud.uploadFile({
-                  cloudPath: 'eventPics/' + eventID + "paymentPic.png",
-                  filePath: this.data.pics.paymentPic[0], // 文件路径
-                  success: res => {
-                    console.log("All files uploaded.")
-                    var paymentPic = res.fileID;
-                    db.collection('event').add({
-                      data: {
-                        _id: eventID,
-                        name: name,
-                        desc: desc,
-                        location: location,
-                        date: date,
-                        provider: provider,
-                        bigPic: bigPic,
-                        contentPic: contentPic,
-                        coverPic: coverPic,
-                        paymentPic: paymentPic,
-                        commodities: items,
-                        createdBy: app.globalData.openid,
-                        note: this.data.note
-                      },
-                      success: function(res) {
-                        console.log("Content uploaded. ", res);
-                        wx.hideLoading();
-                      }
-                    });
-                  }
-                })
-              }
-            })
-          }
-        })
-      }
+    var dataPackage = {
+      bigPic: this.data.pics.bigPic[0],
+      coverPic: this.data.pics.coverPic[0],
+      contentPic: this.data.pics.contentPic[0],
+      paymentPic: this.data.pics.paymentPic[0],
+      _id: eventID,
+      name: name,
+      desc: desc,
+      location: location,
+      date: date,
+      provider: provider,
+      commodities: items,
+      createdBy: app.globalData.openid,
+      note: this.data.note
+    }
+
+    app.globalData.dataPackage = dataPackage;
+
+    wx.navigateTo({
+      url: '../eventPreview/eventPreview',
     })
-
-
-
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
