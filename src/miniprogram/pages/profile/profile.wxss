@@ -63,3 +63,7 @@
   background-color: #ff2d56;
   width: 85%;
 }
+
+.hidden {
+  opacity: 0;
+}

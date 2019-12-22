@@ -3,6 +3,7 @@ const app = getApp();
 const db = wx.cloud.database();
 const _ = db.command;
 const util = require('../../utils/util.js');
+var items = [];
 
 Page({
 
@@ -12,11 +13,13 @@ Page({
   data: {
     event: {},
     checkList: [],
-    selectedCheck:{},
+    selectedCheck: {},
     isImage: false,
     inputShowed: false,
     inputVal: "",
-    isTrue: false
+    isTrue: false,
+    editEvent: false,
+    isEventLoaded:false
   },
 
   /**
@@ -28,7 +31,8 @@ Page({
       _id: options.id
     }).get().then(res => {
       that.setData({
-        event: res.data[0]
+        event: res.data[0],
+        isEventLoaded: true
       });
     })
 
@@ -163,6 +167,19 @@ Page({
     }
   },
 
+  openEditEvent: function() {
+    this.setData({
+      editEvent: true,
+      date: this.data.event.date
+    })
+  },
+
+  closeEditEvent: function() {
+    this.setData({
+      editEvent: false
+    })
+  },
+
   closeDialog: function() {
     this.setData({
       isTrue: false
@@ -177,7 +194,7 @@ Page({
         name: 'deleteDB',
         data: {
           dbName: "check",
-          id: this.data.selectedId
+          id: this.data.selectedCheck._id
         }
       })
       .then(res => {
@@ -196,7 +213,7 @@ Page({
     wx.cloud.callFunction({
         name: 'updateStatus',
         data: {
-          id: this.data.selectedid,
+          id: this.data.selectedCheck._id,
           status: e.currentTarget.dataset.status
         }
       })
@@ -221,5 +238,80 @@ Page({
       })
       .catch(console.error);
   },
+  addItemNote: function(e) {
+    this.setData({
+      note: e.detail.value
+    })
+  },
 
+  editEvent: function(res) {
+    wx.showLoading({
+      title: 'Uploading...',
+    })
+
+    /*
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].name == "") {
+        items.splice(i, 1);
+        i = 0;
+      }
+    }
+    for (let item of items) {
+      item.commID = "mocomm";
+      for (let i = 0; i < 6; i++) {
+        item.commID += Number.parseInt(Math.random() * 10);
+      }
+    }
+    */
+    console.log(res.detail.value);
+    var name = res.detail.value.eventName,
+      provider = res.detail.value.eventProvider,
+      location = res.detail.value.eventLocation,
+      desc = res.detail.value.eventDesc;
+    var date = this.data.date; // + " " + this.data.time;
+    var dataPackage = {
+      //bigPic: this.data.pics.bigPic,
+      //coverPic: this.data.pics.coverPic,
+      //contentPic: this.data.pics.contentPic,
+      //paymentPic: this.data.pics.paymentPic,
+      name: name,
+      desc: desc,
+      location: location,
+      date: date,
+      provider: provider,
+      note: this.data.note
+    }
+    var paymentPic = res.fileID;
+    db.collection('event').where({
+      _id: this.data.event._id
+    }).update({
+      data: {
+        name: dataPackage.name,
+        desc: dataPackage.desc,
+        location: dataPackage.location,
+        date: dataPackage.date,
+        provider: dataPackage.provider,
+        note: dataPackage.note
+      },
+      success: function(res) {
+        wx.hideLoading();
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
+    })
+  },
+
+  bindDateChange: function(e) {
+    this.setData({
+      date: e.detail.value
+    })
+  },
+
+  //下拉刷新
+  onPullDownRefresh: function() {
+    wx.reLaunch({
+      url: 'myEvent',
+    })
+  },
 })

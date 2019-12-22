@@ -1,6 +1,6 @@
 <view class="container">
   <image class="bg-image" src="{{event.bigPic}}" mode="scaleToFit">
-    <view class="hoverTexts">
+    <view class="hoverTexts animated fadeInUp">
       <view class="uiTitle">{{event.name}}</view>
       <view class="uiLabel">From {{event.provider}}</view>
       <view class="uiLabel">{{event.date}}</view>
@@ -10,7 +10,7 @@
     </view>
   </image>
 
-  <button class="uiButton" catchtap="openDialog">Count Me In</button>
+  <button class="uiButton animated fadeInUp" catchtap="openDialog">Count Me In</button>
 
 </view>
 

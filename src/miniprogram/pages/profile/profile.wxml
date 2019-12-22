@@ -1,13 +1,38 @@
+<view class="{{isCheckLoaded? 'animated slideInUp': 'hidden'}}">
 <mohaTitle>My Checks</mohaTitle>
-<block wx:for="{{checkList}}">
+<block wx:for="{{checkList}}" wx:key = "_id">
   <mohaCard data-id="{{item._id}}" data-paymentpic = "{{item.event.paymentPic}}" data-status = "{{item.status}}" time="{{item.time}}" event="{{item.event}}" status = "{{item.status}}" price = "{{item.totalPrice}}" bindtap="openDialog"></mohaCard>
 </block>
 
+<block wx:if = "{{user.isAdmin}}">
 <mohaTitle>My Events</mohaTitle>
 
-<block wx:for="{{myList}}">
+<block wx:for="{{myList}}" wx:key = "_id">
   <mohaEvent data-id="{{item._id}}" event="{{item}}" bindtap="openEvent"></mohaEvent>
 </block>
+</block>
+
+<button wx:if = "{{user.isAdmin}}" class="uiButton" bindtap="toNewEvent">Create New Event</button>
+<button wx:else class="uiButton" open-type="contact">I want to create my own event</button>
+<view class="uiFooter">------This is my limit------</view>
+</view>
+
+<view class="weui-demo-dialog {{isImage ? 'weui-demo-dialog_show' : ''}}">
+  <view class="weui-mask" bindtap="closeImage"></view>
+  <view class="weui-dialog__wrp">
+    <view class="weui-dialog">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">Tap & Save Payment Image</view>
+      </view>
+      <view class="weui-dialog__bd paymentPic">
+<image style = "height:400px;" src="{{currentPaymentPic}}" data-src = "{{currentPaymentPic}}" bindtap="scanCode"></image>
+      </view>
+      <view class="weui-dialog__ft">
+        <view class="uiDesc" bindtap="saveID">Payment ID: {{checkID}}</view>
+      </view>
+    </view>
+  </view>
+</view>
 
 <view class="weui-demo-dialog {{istrue ? 'weui-demo-dialog_show' : ''}}">
   <view class="weui-mask" bindtap="closeDialog"></view>
@@ -27,24 +52,3 @@
     </view>
   </view>
 </view>
-
-<button wx:if = "{{user.isAdmin}}" class="uiButton" bindtap="toNewEvent">Create New Event</button>
-<button wx:else class="uiButton" open-type="contact">I want to create my own event</button>
-<view class="weui-demo-dialog {{isImage ? 'weui-demo-dialog_show' : ''}}">
-  <view class="weui-mask" bindtap="closeImage"></view>
-  <view class="weui-dialog__wrp">
-    <view class="weui-dialog">
-      <view class="weui-dialog__hd">
-        <view class="weui-dialog__title">Tap & Save Payment Image</view>
-      </view>
-      <view class="weui-dialog__bd paymentPic">
-<image style = "height:400px;" src="{{currentPaymentPic}}" data-src = "{{currentPaymentPic}}" bindtap="scanCode"></image>
-      </view>
-      <view class="weui-dialog__ft">
-        <view class="uiDesc" bindtap="saveID">Payment ID: {{checkID}}</view>
-      </view>
-    </view>
-  </view>
-</view>
-
-<view class="uiFooter">------This is my limit------</view>

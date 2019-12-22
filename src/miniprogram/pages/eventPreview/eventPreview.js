@@ -1,5 +1,4 @@
 // miniprogram/pages/eventDetail/eventDetail.js
-const md5 = require('../../utils/md5.js');
 const app = getApp();
 const db = wx.cloud.database();
 const _ = db.command;
@@ -33,7 +32,6 @@ Page({
   },
 
   PickerChange(e) {
-    console.log(e);
     this.setData({
       index: e.detail.value
     })
@@ -192,7 +190,6 @@ Page({
                   cloudPath: 'eventPics/' + app.globalData.dataPackage._id + "paymentPic.png",
                   filePath: app.globalData.dataPackage.paymentPic, // 文件路径
                   success: res => {
-                    console.log("All files uploaded.")
                     var paymentPic = res.fileID;
                     db.collection('event').add({
                       data: {

@@ -2,7 +2,7 @@
 <image style="width:100%" mode="scaleToFit" src="{{event.coverPic}}"></image>
 <mohaBar>Total Sales: {{checkList.length}}</mohaBar>
 <mohaBar>Total Revenue: {{revenue}}</mohaBar>
-<button class="uiButton" bindtap="editEvent">Edit Event</button>
+<button class="uiButton" style="margin-bottom:10px;" bindtap="openEditEvent">Edit Event</button>
 
 <view class="weui-search-bar">
   <view class="weui-search-bar__form">
@@ -32,7 +32,7 @@
   <mohaCheck data-id="{{item._id}}" status="{{item.status}}" name="{{item.user.name}}" price="{{item.totalPrice}}" id="{{item._id}}" bindtap="openDialog"></mohaCheck>
 </block>
 
-<view class="weui-demo-dialog {{isTrue ? 'weui-demo-dialog_show' : ''}}">
+<view class="weui-demo-dialog {{isTrue ? 'weui-demo-dialog_show' : 'hidden'}}">
   <view class="weui-mask" bindtap="closeDialog"></view>
   <view class="weui-half-screen-dialog">
     <view class="weui-half-screen-dialog__hd">
@@ -71,6 +71,74 @@
     </view>
   </view>
 </view>
-
-
 <view class="uiFooter">------This is the end------</view>
+
+<view class="weui-demo-dialog {{editEvent ? 'weui-demo-dialog_show' : ''}}">
+  <view class="weui-mask" bindtap="closeEditEvent"></view>
+  <view class="weui-dialog__wrp">
+    <view class="weui-dialog">
+      <view class="weui-dialog__hd">
+        <view class="weui-dialog__title">Edit Event</view>
+      </view>
+      <view class="weui-dialog__bd">
+        <view class="weui-form__control-area">
+          <form bindsubmit="editEvent">
+            <view class="weui-cells weui-cells_after-title">
+              <view class="weui-cell ">
+                <view class="weui-cell__hd">
+                  <view class="weui-label uiLabel">Name</view>
+                </view>
+                <view class="weui-cell__bd">
+                  <input name="eventName" class="weui-input" value="{{event.name}}" />
+                </view>
+              </view>
+              <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell">
+                  <view class="weui-cell__bd">
+                    <textarea class="weui-textarea" name="eventDesc" style="height: 3.3em" value="{{event.desc}}" />
+                    <!--<view class="weui-textarea-counter uiLabel">0/{{wordLimit-desc}}</view>-->
+                  </view>
+                </view>
+              </view>
+              <view class="weui-cell ">
+                <view class="weui-cell__hd">
+                  <view class="weui-label uiLabel">Provider</view>
+                </view>
+                <view class="weui-cell__bd">
+                  <input class="weui-input" name="eventProvider" value="{{event.provider}}" />
+                </view>
+              </view>
+              <view class="weui-cell ">
+                <view class="weui-cell__hd">
+                  <view class="weui-label uiLabel">Location</view>
+                </view>
+                <view class="weui-cell__bd">
+                  <input name="eventLocation" class="weui-input" value="{{event.location}}" />
+                </view>
+              </view>
+              <view class="weui-cell ">
+                <view class="weui-cell__hd">
+                  <view class="weui-label uiLabel">Date</view>
+                </view>
+                <view class="weui-cell__bd">
+                  <picker mode="date" value="{{date}}" start="2019-09-01" end="2077-09-01" bindchange="bindDateChange">
+                    <view class="weui-input">{{date}}</view>
+                  </picker>
+                </view>
+              </view>
+              <view class="weui-cell ">
+                <view class="weui-cell__hd">
+                  <view class="weui-label uiLabel">Note Mockup</view>
+                </view>
+                <view class="weui-cell__bd">
+                  <input class="weui-input" bindinput="addItemNote" value="{{event.note}}" />
+                </view>
+              </view>
+              </view>
+            <button class="uiButton" form-type="submit">Edit Event</button>
+          </form>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

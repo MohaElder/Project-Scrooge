@@ -5,5 +5,6 @@
     "mohaSwiper": "../../components/mohaSwiper/mohaSwiper",
     "mohaCard": "../../components/mohaCard/mohaCard",
     "mohaCheck": "../../components/mohaCheck/mohaCheck"
-  }
+  },
+  "enablePullDownRefresh": true
 }

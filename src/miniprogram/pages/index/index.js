@@ -1,5 +1,4 @@
 //index.js
-const md5 = require('../../utils/md5.js');
 const app = getApp();
 const db = wx.cloud.database();
 const _ = db.command;
@@ -26,7 +25,8 @@ Page({
     windowHeight: 0, //视图高度
     imgMargin: 6, //图片边距: 单位px
     imgWidth: 0, //图片宽度: 单位px
-    topArr: [0, 0], //存储每列的累积top
+    topArr: [0, 0], //存储每列的累积top,
+    isEventLoaded: false
   },
 
   //页面每次打开运行
@@ -35,7 +35,6 @@ Page({
     //获取页面宽高度
     wx.getSystemInfo({
       success: function(res) {
-        console.log(res)
         var windowWidth = res.windowWidth;
         var imgMargin = that.data.imgMargin;
         //两列，每列的图片宽度
@@ -114,7 +113,6 @@ Page({
         }
       })
       .then(res => {
-        console.log(res)
         eventList = res.result.data;
         app.globalData.eventList = res.result.data;
         for (let event of eventList) {
@@ -131,7 +129,8 @@ Page({
             eventList[i].coverPic = res.fileList[i].tempFileURL
           }
           that.setData({
-            eventList: eventList
+            eventList: eventList,
+            isEventLoaded:true
           });
         }).catch(error => {
           // handle error
@@ -214,7 +213,7 @@ Page({
         });
         // res.data 包含该记录的数据
         wx.showToast({
-          title: '您已登录！',
+          title: 'Logged In！',
         });
         that.isAdmin(res.data);
         //that.checkEmergency(res.data);
@@ -231,6 +230,8 @@ Page({
 
   //下拉刷新
   onPullDownRefresh: function() {
-
+    wx.reLaunch({
+      url: 'index',
+    })
   },
 });

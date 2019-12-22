@@ -23,7 +23,7 @@
         <view class="weui-label uiLabel">Provider</view>
       </view>
       <view class="weui-cell__bd">
-        <input name="eventName" class="weui-input" name="eventProvider" placeholder="Name of the event provider" />
+        <input class="weui-input" name="eventProvider" placeholder="Name of the event provider" />
       </view>
     </view>
     <view class="weui-cell">

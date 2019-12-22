@@ -27,10 +27,8 @@ exports.main = async(event, context) => {
       },
       templateId: 'KWz4gYx0OcHMZfVFPNjXx43ln50Sllf5Fklj8IfqVks'
     })
-    console.log(result)
     return result
   } catch (err) {
-    console.log(err)
     return err
   }
 }

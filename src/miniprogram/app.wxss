@@ -1,4 +1,5 @@
 @import 'styles/weui.wxss';
+@import "/utils/animate.wxss";
 
 @font-face {
     font-family: 'Raleway';

@@ -11,14 +11,17 @@ Page({
    */
   data: {
     showDialog: false,
+    isCheckLoaded: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    checkList = [];
+    myList = [];
     wx.showLoading({
-      title: '正在打发土地爷',
+      title: 'Loading...',
     });
     checkList = [];
     var that = this;
@@ -37,7 +40,8 @@ Page({
         checkList.reverse();
         that.setData({
           user: app.globalData.user,
-          checkList: checkList
+          checkList: checkList,
+          isCheckLoaded:true
         });
         for (var i = 0; i < checkList.length; i++) {
           if (checkList[i].status == "Pending") {
@@ -75,9 +79,7 @@ Page({
       data: this.data.checkID,
       success(res) {
         wx.getClipboardData({
-          success(res) {
-            console.log(res.data) // data
-          }
+          success(res) {}
         })
       }
     })
@@ -133,15 +135,12 @@ Page({
   },
 
   openDialog: function(options) {
-    console.log(options);
     if (options.currentTarget.dataset.status == "Pending") {
       wx.setClipboardData({
         data: options.currentTarget.dataset.id,
         success(res) {
           wx.getClipboardData({
-            success(res) {
-              console.log(res.data) // data
-            }
+            success(res) {}
           })
         }
       })
@@ -169,6 +168,13 @@ Page({
     wx.navigateTo({
       url: '../myEvent/myEvent?id=' + options.currentTarget.dataset.id,
     })
-  }
+  },
+
+  //下拉刷新
+  onPullDownRefresh: function() {
+    wx.reLaunch({
+      url: 'profile',
+    })
+  },
 
 })

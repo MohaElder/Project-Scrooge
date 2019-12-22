@@ -1,5 +1,4 @@
 // miniprogram/pages/eventDetail/eventDetail.js
-const md5 = require('../../utils/md5.js');
 const app = getApp();
 const db = wx.cloud.database();
 const _ = db.command;
@@ -25,8 +24,9 @@ Page({
       if (app.globalData.eventList[i]._id == options.id) {
         for (let item of app.globalData.eventList[i].commodities) {
           item.checked = false;
-          item.addedPrice = item.price;
+          item.addedPrice = 0;
           item.initialStock = item.stock;
+          item.purchasedNum = 0;
         }
         that.setData({
           event: app.globalData.eventList[i],
@@ -37,7 +37,6 @@ Page({
   },
 
   PickerChange(e) {
-    console.log(e);
     this.setData({
       index: e.detail.value
     })
@@ -131,9 +130,7 @@ Page({
           data: checkID,
           success(res) {
             wx.getClipboardData({
-              success(res) {
-                console.log(res.data) // data
-              }
+              success(res) {}
             })
           }
         })
@@ -153,9 +150,7 @@ Page({
       data: this.data.checkID,
       success(res) {
         wx.getClipboardData({
-          success(res) {
-            console.log(res.data) // data
-          }
+          success(res) {}
         })
       }
     })
@@ -290,6 +285,10 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-
+    return {
+      title: "Sharing " + this.data.event.name,
+      path: 'eventDetail?id=' + this.data.event._id,
+      imageUrl: this.data.event.coverPic
+    }
   }
 })

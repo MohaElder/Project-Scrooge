@@ -33,6 +33,14 @@
   width: 75%;
 }
 
+.uiLabel {
+  font-size: 15px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 400;
+  color: black;
+}
+
 .searchbar-result {
   margin-top: 0;
   font-size: 14px;
@@ -76,4 +84,8 @@
 .weui-half-screen-dialog__ft {
   display: flex;
   flex-wrap: nowrap;
+}
+
+.hidden {
+  opacity: 0;
 }
