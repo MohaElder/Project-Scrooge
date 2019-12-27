@@ -58,11 +58,22 @@
         status: {{selectedCheck.status}}
       </view>
       <view class="weui-half-screen-dialog__desc">
-        Price: {{selectedCheck.totalPrice}}
+        total price: {{selectedCheck.totalPrice}}
       </view>
       <view class="weui-half-screen-dialog__desc">
         Purchased on {{selectedCheck.time}}
       </view>
+      <block wx:for = "{{selectedCheck.commodities}}">
+      <view class="weui-half-screen-dialog__desc" style="margin-top:20px;">
+        Commodity name: {{item.name}}
+      </view>
+            <view class="weui-half-screen-dialog__desc">
+        Commodity price: {{item.addedPrice}}
+      </view>
+            <view class="weui-half-screen-dialog__desc">
+        Commodity purchased: {{item.purchasedNum}}
+      </view>
+      </block>
       <view class="weui-half-screen-dialog__ft">
         <button class="uiButton-small" style="margin-right:10px; background-color: #3f3f3f;" bindtap="deleteCheck">Delete</button>
         <button wx:if="{{selectedCheck.status == 'Pending'}}" class="uiButton-small" data-status="Paid" bindtap="changeStatus">Set to Paid</button>
@@ -134,7 +145,7 @@
                   <input class="weui-input" bindinput="addItemNote" value="{{event.note}}" />
                 </view>
               </view>
-              </view>
+            </view>
             <button class="uiButton" form-type="submit">Edit Event</button>
           </form>
         </view>
