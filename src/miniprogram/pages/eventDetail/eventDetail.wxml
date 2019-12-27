@@ -48,7 +48,7 @@
             </checkbox-group>
           </view>
           <view class="weui-cell__ft">
-            <input style="margin-left = 15px;" type="number" placeholder="{{item.initialStock}} left" data-index="{{index}}" value="" bindinput="inputStock"></input>
+            <input style="margin-left = 15px;" type="number" placeholder="Stock: {{item.initialStock}}" data-index="{{index}}" value="" bindinput="inputStock"></input>
           </view>
         </view>
       </view>

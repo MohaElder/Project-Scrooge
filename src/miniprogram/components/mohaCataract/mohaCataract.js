@@ -7,31 +7,45 @@ Component({
    * 组件的属性列表
    */
   properties: {
+    imgMargin: {
+      type: Number,
+      value: 6
+    },
     windowHeight: {
+      type: Number,
+      value: 0
+    },
+    windowWidth: {
+      type: Number,
+      value: 0
+    },
+    imgWidth: {
       type: Number,
       value: 0
     },
     eventList: {
       type: Object,
-      value: [
-        {
-          coverPic: "https://7363-scrooge-169-1300052845.tcb.qcloud.la/eventPics/moha426713coverPic.png"
+      value: [{
+          _id: "aaa",
+          contentPic: "https://7363-scrooge-169-1300052845.tcb.qcloud.la/eventPics/moha426713coverPic.png"
         },
         {
-          coverPic: "https://7363-scrooge-169-1300052845.tcb.qcloud.la/eventPics/moha426713coverPic.png"
+          _id: "aaa",
+          contentPic: "https://7363-scrooge-169-1300052845.tcb.qcloud.la/eventPics/moha426713coverPic.png"
         },
         {
-          coverPic: "https://7363-scrooge-169-1300052845.tcb.qcloud.la/eventPics/moha426713coverPic.png"
+          _id: "aaa",
+          contentPic: "https://7363-scrooge-169-1300052845.tcb.qcloud.la/eventPics/moha426713coverPic.png"
         }
       ]
-    } 
+    }
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-   
+    topArr: [0, 0], //存储每列的累积top,
   },
 
   /**
@@ -41,7 +55,6 @@ Component({
     //加载图片
     loadImage: function(e) {
       var that = this;
-      var coverPics = [];
       var index = e.currentTarget.dataset.index; //图片所在索引
       var imgW = e.detail.width,
         imgH = e.detail.height; //图片实际宽度和高度
@@ -67,6 +80,10 @@ Component({
         eventList: dataList,
         topArr: [firtColH, secondColH],
       });
+    },
+
+    getImageId: function(info) {
+      this.triggerEvent('customevent', info.currentTarget.dataset.id);
     },
   }
 })

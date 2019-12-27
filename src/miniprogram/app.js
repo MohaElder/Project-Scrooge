@@ -1,19 +1,35 @@
 //app.js
 App({
+  globalData: {
+    windowWidth: 0, //页面视图宽度
+    windowHeight: 0, //视图高度
+    imgMargin: 6, //图片边距: 单位px
+    imgWidth: 0, //图片宽度: 单位px
+  },
+
   onLaunch: function() {
+    var that = this;
 
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
       wx.cloud.init({
-        // env 参数说明：
-        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
-        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
-        //   如不填则使用默认环境（第一个创建的环境）
-        // env: 'my-env-id',
         traceUser: true,
       })
     }
+
+    //获取页面宽高度
+    wx.getSystemInfo({
+      success: function(res) {
+        var windowWidth = res.windowWidth;
+        var imgMargin = that.globalData.imgMargin;
+        //两列，每列的图片宽度
+        var imgWidth = (windowWidth - imgMargin * 3) / 2;
+        that.globalData.windowWidth = windowWidth,
+        that.globalData.windowHeight = res.windowHeight,
+        that.globalData.imgWidth = imgWidth
+      }
+    })
 
     wx.getSetting({
       success(res) {
@@ -28,6 +44,5 @@ App({
       }
     })
 
-    this.globalData = {}
   }
 })

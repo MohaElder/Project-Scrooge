@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "mohaTitle": "../../components/mohaTitle/mohaTitle",
-    "mohaBar": "../../components/mohaBar/mohaBar"
+    "mohaBar": "../../components/mohaBar/mohaBar",
+    "mohaCataract": "../../components/mohaCataract/mohaCataract"
   }
 }

@@ -10,6 +10,23 @@ Page({
    * 页面的初始数据
    */
   data: {
+    imageList: [
+      {
+        contentPic: "https://wx4.sinaimg.cn/mw690/9d0d09ably1gab8mvqpvxj20j60ee75x.jpg"
+      },
+      {
+        contentPic: "https://wx4.sinaimg.cn/mw690/9d0d09ably1gab8mvqpvxj20j60ee75x.jpg"
+      },
+      {
+        contentPic: "https://wx4.sinaimg.cn/mw690/9d0d09ably1gab8mvqpvxj20j60ee75x.jpg"
+      },
+      {
+        contentPic: "https://wx4.sinaimg.cn/mw690/9d0d09ably1gab8mvqpvxj20j60ee75x.jpg"
+      },
+      {
+        contentPic: "https://wx4.sinaimg.cn/mw690/9d0d09ably1gab8mvqpvxj20j60ee75x.jpg"
+      }
+    ],
     showDialog: false,
     checkboxItems: [],
     price: 0
@@ -30,7 +47,7 @@ Page({
         }
         that.setData({
           event: app.globalData.eventList[i],
-          checkboxItems: app.globalData.eventList[i].commodities,
+          checkboxItems: app.globalData.eventList[i].commodities
         })
       }
     }

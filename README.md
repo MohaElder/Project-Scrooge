@@ -11,13 +11,8 @@ TODO-Features:
 ## Share Event ✔
 ## Form Template ✔
 
-## more pictures scrolling -> cataract + gallery
-
 ## note unclear too small
 
 ## notice UX
 
-## stock is weird
-
 ## can't purchase BUG
-
