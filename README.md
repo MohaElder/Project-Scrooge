@@ -4,11 +4,20 @@ Project Scrooge 是一个基于免费和独立精神的活动分享小程序
 
 TODO-Features:
 ## Redo form registration ✔
-## CMS System 
+## CMS System ✔
 ## Payment System ❌ To be continued in the near future 
 ## Event Showing <= Use QIONIO  ✔
 ## User Management System. ✔
-## Share Event
+## Share Event ✔
 ## Form Template ✔
 
+## more pictures scrolling -> cataract + gallery
+
+## note unclear too small
+
+## notice UX
+
+## stock is weird
+
+## can't purchase BUG
 

@@ -4,11 +4,11 @@
   <mohaSwiper bindcustomevent="getImageIdCustom" eventList="{{eventList}}" isMini="{{false}}"></mohaSwiper>
 
   <mohaBar>See All</mohaBar>
-
-  <scroll-view class="cataractContainer" scroll-y='true' style="height:{{windowHeight/2}}px">
+  <mohaCataract windowHeight = "{{windowHeight}}px"/>
+  <!--<scroll-view class="cataractContainer" scroll-y='true' style="height:{{windowHeight/2}}px">
     <image class="uiImageItem" wx:for='{{eventList}}' wx:key='item' src='{{item.contentPic}}' style='position: absolute; top: {{item.top}}px; left: {{item.left}}px; width: {{imgWidth}}px; height: {{item.height}}px' bindload='loadImage' data-index='{{index}}'
       data-id="{{item._id}}" bindtap='getImageId' />
-  </scroll-view>
+  </scroll-view>-->
 
   <view class="weui-demo-dialog {{isRegistered ? '' : 'weui-demo-dialog_show'}}">
     <view class="weui-mask" bindtap="closeImage"></view>
