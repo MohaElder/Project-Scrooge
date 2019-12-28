@@ -34,23 +34,47 @@
         Choose item type
       </view>
       <view class="weui-cells weui-cells_checkbox weui-cells_after-title">
-        <view class="weui-cell" wx:for="{{checkboxItems}}" wx:key="value">
-          <view class="weui-cell__bd">
-            <checkbox-group data-index="{{index}}" bindchange="checkboxChange">
-              <label class="weui-cell weui-check__label">
-                <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
-                <view class="weui-cell__hd weui-check__hd_in-checkbox">
-                  <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
-                  <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
-                </view>
-                <view class="weui-cell__bd">{{item.name}}</view>
-              </label>
-            </checkbox-group>
+        <block wx:if="{{isSpecialEvent}}">
+          <view class="weui-cell" wx:for="{{userPool}}" wx:key="value">
+            <view class="weui-cell__bd">
+              <checkbox-group data-index="{{index}}" bindchange="checkboxChange">
+                <label class="weui-cell weui-check__label">
+                  <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
+                  <view class="weui-cell__hd weui-check__hd_in-checkbox">
+                    <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
+                    <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
+                  </view>
+                  <view class="weui-cell__bd">{{item.name}}</view>
+                </label>
+              </checkbox-group>
+            </view>
+            <view class="weui-cell__ft">
+              <input style="margin-left = 15px;" type="number" placeholder="Stock: {{item.initialStock}}" data-index="{{index}}" value="" bindinput="inputStock"></input>
+              <input style="margin-left = 15px;" type="number" placeholder="To whom (Add Class&Grade)" data-index="{{index}}" value="" bindinput="inputReceiver"></input>
+              <input style="margin-left = 15px;" type="number" placeholder="From whom(Leave blank as Anonymous)" data-index="{{index}}" value="" bindinput="inputReceiver"></input>
+            </view>
           </view>
-          <view class="weui-cell__ft">
-            <input style="margin-left = 15px;" type="number" placeholder="Stock: {{item.initialStock}}" data-index="{{index}}" value="" bindinput="inputStock"></input>
+          <button>Add</button>
+        </block>
+        <block wx:else>
+          <view class="weui-cell" wx:for="{{checkboxItems}}" wx:key="value">
+            <view class="weui-cell__bd">
+              <checkbox-group data-index="{{index}}" bindchange="checkboxChange">
+                <label class="weui-cell weui-check__label">
+                  <checkbox class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
+                  <view class="weui-cell__hd weui-check__hd_in-checkbox">
+                    <icon class="weui-icon-checkbox_circle" type="circle" size="23" wx:if="{{!item.checked}}"></icon>
+                    <icon class="weui-icon-checkbox_success" type="success" size="23" wx:if="{{item.checked}}"></icon>
+                  </view>
+                  <view class="weui-cell__bd">{{item.name}}</view>
+                </label>
+              </checkbox-group>
+            </view>
+            <view class="weui-cell__ft">
+              <input style="margin-left = 15px;" type="number" placeholder="Stock: {{item.initialStock}}" data-index="{{index}}" value="" bindinput="inputStock"></input>
+            </view>
           </view>
-        </view>
+        </block>
       </view>
       <view class="weui-half-screen-dialog__tips">
         <input placeholder="Note: {{event.note}}" bindinput="inputNote" value="{{item.stock}}"></input>

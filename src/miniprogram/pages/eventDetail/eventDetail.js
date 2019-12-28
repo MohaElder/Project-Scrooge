@@ -29,6 +29,8 @@ Page({
     ],
     showDialog: false,
     checkboxItems: [],
+    userPool: [],
+    itemPool: [],
     price: 0
   },
 
@@ -39,6 +41,14 @@ Page({
     var that = this;
     for (var i = 0; i < app.globalData.eventList.length; i++) {
       if (app.globalData.eventList[i]._id == options.id) {
+        for(let item of app.globalData.specialEventList){
+          if(options.id == item.eventID){
+            that.setData({
+              isSpecialEvent: true,
+              
+            })
+          }
+        }
         for (let item of app.globalData.eventList[i].commodities) {
           item.checked = false;
           item.addedPrice = 0;

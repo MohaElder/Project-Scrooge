@@ -61,6 +61,16 @@ Page({
     var that = this;
     var coverPics = [];
     wx.cloud.callFunction({
+      name: 'getDB',
+      data: {
+        dbName: "specialEvents"
+      }
+    })
+      .then(res => {
+        app.globalData.specialEventList = res.result.data;
+      })
+      .catch(console.error);
+    wx.cloud.callFunction({
         name: 'getDB',
         data: {
           dbName: "event"
